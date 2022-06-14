@@ -69,3 +69,22 @@ func Test_LevelOrder(t *testing.T) {
 		})
 	}
 }
+
+func Test_RightSideViewBfs(t *testing.T) {
+	var ts = []struct {
+		input    []int
+		expected []int
+	}{{[]int{1, 2, 3, -1, 5, -1, 4}, []int{1, 3, 4}},
+		{[]int{1, -1, 3}, []int{1, 3}},
+		{[]int{}, []int{}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			tree := buildTree(ts[i].input)
+			result := rightSideViewBfs(tree)
+			if tree != nil && !reflect.DeepEqual(result, ts[i].expected) {
+				t.Errorf("input %v, exp %v, got %v", ts[i].input, ts[i].expected, result)
+			}
+		})
+	}
+}
