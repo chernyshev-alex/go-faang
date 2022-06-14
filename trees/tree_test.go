@@ -88,3 +88,85 @@ func Test_RightSideViewBfs(t *testing.T) {
 		})
 	}
 }
+
+func Test_RightSideViewDfs(t *testing.T) {
+	var ts = []struct {
+		input    []int
+		expected []int
+	}{{[]int{1, 2, 3, -1, 5, -1, 4}, []int{1, 3, 4}},
+		{[]int{1, -1, 3}, []int{1, 3}},
+		{[]int{}, []int{}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			tree := buildTree(ts[i].input)
+			result := rightSideViewDfs(tree)
+			if tree != nil && !reflect.DeepEqual(result, ts[i].expected) {
+				t.Errorf("input %v, exp %v, got %v", ts[i].input, ts[i].expected, result)
+			}
+		})
+	}
+}
+
+func Benchmark_RightSideViewDfs(b *testing.B) {
+	var ts = []struct {
+		input    []int
+		expected []int
+	}{{[]int{1, 2, 3, -1, 5, -1, 4}, []int{1, 3, 4}}}
+
+	tree := buildTree(ts[0].input)
+	for n := 0; n < b.N; n++ {
+		rightSideViewDfs(tree)
+	}
+}
+
+func Test_CountNodesRecursive(t *testing.T) {
+	var ts = []struct {
+		input    []int
+		expected int
+	}{{[]int{1, 2, 3, 4, 5, 6}, 6}, {[]int{1}, 1}, {[]int{}, 0}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			tree := buildTree(ts[i].input)
+			result := countNodesRecursive(tree)
+			if result != ts[i].expected {
+				t.Errorf("input %v, exp %v, got %v", ts[i].input, ts[i].expected, result)
+			}
+		})
+	}
+}
+
+func Test_CountNodesOpt(t *testing.T) {
+	var ts = []struct {
+		input    []int
+		expected int
+	}{{[]int{1, 2, 3, 4, 5, 6}, 6}, {[]int{1}, 1}, {[]int{}, 0}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			tree := buildTree(ts[i].input)
+			result := countNodesOpt(tree)
+			if result != ts[i].expected {
+				t.Errorf("input %v, exp %v, got %v", ts[i].input, ts[i].expected, result)
+			}
+		})
+	}
+}
+
+func Test_IsValidBST(t *testing.T) {
+	var ts = []struct {
+		input    []int
+		expected bool
+	}{{[]int{2, 1, 3}, true}, {[]int{5, 1, 4, -1, -1, 3, 6}, false}, {[]int{2147483647}, true}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			tree := buildTree(ts[i].input)
+			result := isValidBST(tree)
+			if result != ts[i].expected {
+				t.Errorf("input %v, exp %v, got %v", ts[i].input, ts[i].expected, result)
+			}
+		})
+	}
+}
