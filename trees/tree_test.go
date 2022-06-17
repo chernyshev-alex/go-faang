@@ -141,14 +141,14 @@ func Test_CountNodesOpt(t *testing.T) {
 	var ts = []struct {
 		input    []int
 		expected int
-	}{{[]int{1, 2, 3, 4, 5, 6}, 6}, {[]int{1}, 1}, {[]int{}, 0}}
+	}{{[]int{1, 2, 3}, 3}, {[]int{1, 2, 3, 4, 5, 6}, 6}, {[]int{}, 0}, {[]int{1}, 1}}
 
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
 			tree := buildTree(ts[i].input)
 			result := countNodesOpt(tree)
 			if result != ts[i].expected {
-				t.Errorf("input %v, exp %v, got %v", ts[i].input, ts[i].expected, result)
+				t.Errorf("input %v, exp %v, got %v\n", ts[i].input, ts[i].expected, result)
 			}
 		})
 	}

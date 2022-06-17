@@ -117,23 +117,41 @@ func countNodesRecursive(root *TreeNode) int {
 	return __countNodeRecursive(root)
 }
 
+// NlogN rec subopt.---
+
+func countNodes2(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	hl, hr := 0, 0
+	for l := root; l != nil; l = l.Left {
+		hl++
+	}
+	for r := root; r != nil; r = r.Right {
+		hr++
+	}
+	if hl == hr {
+		return int(math.Pow(2, float64(hl))) - 1
+	}
+	return 1 + countNodes2(root.Left) + countNodes2(root.Right)
+}
+
 // -- O(n) ---------------
 //
 func tree_height(n *TreeNode) (height int) {
-	for height, curr := 0, n; curr != nil; curr, height = curr.Left, height+1 {
+	for ; n.Left != nil; n = n.Left {
+		height += 1
 	}
 	return
 }
 
-func node_exists(idx int, h int, node *TreeNode) bool {
-	for l, r, count := 0, int(math.Pow(float64(h), 2)-1), 0; count < h; count++ {
-		mid := int(math.Ceil(float64((l + r)) / 2.0))
-		if node != nil {
-			if idx >= mid {
-				l, node = mid, node.Right
-			} else {
-				r, node = mid-1, node.Left
-			}
+func node_exists(idx int, h int, upper_count int, node *TreeNode) bool {
+	for l, r, count := 0, upper_count, 0; count < h; count++ {
+		mid := int(math.Ceil(float64((l + r)) / 2))
+		if idx >= mid {
+			l, node = mid, node.Right
+		} else {
+			r, node = mid-1, node.Left
 		}
 	}
 	return node != nil
@@ -143,16 +161,16 @@ func countNodesOpt(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	h := tree_height(root)
+	var h = tree_height(root)
 	if h == 0 {
 		return 1
 	}
 
-	var upper_count int = int(math.Pow(float64(h), 2)) - 1
-	l, r := 0, upper_count
-	for l < r {
-		var idx_find int = int(math.Ceil(float64(l+r) / 2))
-		if node_exists(idx_find, h, root) {
+	var upper_count int = int(math.Pow(2, float64(h)) - 1)
+	l := 0
+	for r := upper_count; l < r; {
+		idx_find := int(math.Ceil(float64(l+r) / 2))
+		if node_exists(idx_find, h, upper_count, root) {
 			l = idx_find
 		} else {
 			r = idx_find - 1
