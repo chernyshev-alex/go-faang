@@ -50,15 +50,18 @@ func Test_DijkstraShortestPath(t *testing.T) {
 
 func Test_NumIslands(t *testing.T) {
 	var ts = []struct {
-		input []int
-		exp   []int
-	}{{[]int{20, 22, 1, 5}, []int{22, 20, 5, 1}}, {[]int{15, 12, 50, 7, 40, 22}, []int{50, 40, 22, 15, 12, 7}}}
+		input [][]byte
+		exp   int
+	}{{[][]byte{
+		{'1', '1', '0', '0', '0'},
+		{'1', '1', '0', '0', '0'},
+		{'0', '0', '1', '0', '0'},
+		{'0', '0', '0', '1', '1'}}, 3}}
 
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
-			result := numIslands(makeMatrix(5, 5, nil))
-
-			assert.Equal(t, result, ts[i].exp)
+			result := numIslands(ts[i].input)
+			assert.Equal(t, ts[i].exp, result)
 		})
 	}
 

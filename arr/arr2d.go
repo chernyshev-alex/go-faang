@@ -114,6 +114,38 @@ func dijkstraShortestPath(als [][]Edge, start, goal uint) (uint, bool) {
 // Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water),
 // return the number of islands.
 
-func numIslands(grid [][]int) int {
-	panic("unimplemented")
+func numIslands(grid [][]byte) int {
+	result := 0
+	if len(grid) == 0 {
+		return result
+	}
+	q := make([]Pair, 0)
+	for row := range grid {
+		for col := range grid[row] {
+			if grid[row][col] == '1' {
+				result += 1
+
+				grid[row][col] = '0'
+				q = append(q, Pair{r: row, c: col})
+
+				for len(q) > 0 {
+					var v Pair
+					v, q = q[0], q[1:]
+					for _, d := range directions() {
+						nextRow, nextCol := v.r+d[0], v.c+d[1]
+						if nextRow < 0 || nextCol < 0 ||
+							nextRow >= len(grid) || nextCol >= len(grid[0]) {
+							continue
+						}
+
+						if grid[nextRow][nextCol] == '1' {
+							q = append(q, Pair{r: nextRow, c: nextCol})
+							grid[nextRow][nextCol] = '0'
+						}
+					}
+				}
+			}
+		}
+	}
+	return result
 }
