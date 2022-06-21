@@ -110,10 +110,6 @@ func dijkstraShortestPath(als [][]Edge, start, goal uint) (uint, bool) {
 	return 0, false
 }
 
-// https://leetcode.com/problems/number-of-islands/
-// Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water),
-// return the number of islands.
-
 func numIslands(grid [][]byte) int {
 	result := 0
 	if len(grid) == 0 {
@@ -148,4 +144,77 @@ func numIslands(grid [][]byte) int {
 		}
 	}
 	return result
+}
+
+func orangesRotting(grid [][]int) int {
+	if len(grid) == 0 {
+		return 0
+	}
+
+	freshOranges := 0
+	rotten := make([]Pair, 0)
+	for row := range grid {
+		for col := range grid[row] {
+			switch grid[row][col] {
+			case 1:
+				freshOranges += 1
+			case 2:
+				rotten = append(rotten, Pair{r: row, c: col})
+			}
+		}
+	}
+
+	mins := 0
+	for currentQueueSize := len(rotten); len(rotten) > 0; {
+		if currentQueueSize == 0 {
+			currentQueueSize = len(rotten)
+			mins += 1
+		}
+
+		var v Pair
+		v, rotten = rotten[0], rotten[1:]
+
+		currentQueueSize -= 1
+
+		for _, d := range directions() {
+			nextRow, nextCol := v.r+d[0], v.c+d[1]
+			if nextRow < 0 || nextCol < 0 ||
+				nextRow >= len(grid) || nextCol >= len(grid[0]) {
+				continue
+			}
+
+			if grid[nextRow][nextCol] == 1 {
+				grid[nextRow][nextCol] = 2
+				freshOranges -= 1
+				rotten = append(rotten, Pair{r: nextRow, c: nextCol})
+
+			}
+		}
+	}
+	if freshOranges != 0 {
+		return -1
+	}
+	return mins
+}
+
+func wallsAndGates(grid [][]int) {
+	var fnDfs func(r, c, cur_value int)
+
+	fnDfs = func(r, c, cur_value int) {
+		if r < 0 || c < 0 || r >= len(grid) || c >= len(grid[r]) || cur_value > grid[r][c] {
+			return
+		}
+		grid[r][c] = cur_value
+		for _, d := range directions() {
+			fnDfs(r+d[0], c+d[1], cur_value+1)
+		}
+	}
+
+	for r := range grid {
+		for c := range grid[r] {
+			if grid[r][c] == 0 {
+				fnDfs(r, c, 0)
+			}
+		}
+	}
 }

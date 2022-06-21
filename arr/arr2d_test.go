@@ -2,6 +2,7 @@ package arr
 
 import (
 	"fmt"
+	"math"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -48,6 +49,10 @@ func Test_DijkstraShortestPath(t *testing.T) {
 	}
 }
 
+// https://leetcode.com/problems/number-of-islands/
+// Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water),
+// return the number of islands
+//
 func Test_NumIslands(t *testing.T) {
 	var ts = []struct {
 		input [][]byte
@@ -64,5 +69,49 @@ func Test_NumIslands(t *testing.T) {
 			assert.Equal(t, ts[i].exp, result)
 		})
 	}
+}
 
+// https://leetcode.com/problems/rotting-oranges/
+// You are given an m x n grid where each cell can have one of three values:
+// 0 representing an empty cell,
+// 1 representing a fresh orange, or
+// 2 representing a rotten orange.
+// Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
+// Return the minimum number of minutes that must elapse until no cell has a fresh orange.
+// If this is impossible, return -1.
+////
+func Test_OrangesRotting(t *testing.T) {
+	var ts = []struct {
+		input [][]int
+		exp   int
+	}{{[][]int{{2, 1, 1}, {1, 1, 0}, {0, 1, 1}}, 4},
+		{[][]int{{2, 1, 1}, {0, 1, 1}, {1, 0, 1}}, -1},
+		{[][]int{{0, 2}}, 0}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := orangesRotting(ts[i].input)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+// Given 2d array containing  -1 - walls, 0-gates, INF - empty room.
+// Fill each empty room with a number of steps to the nearest gate.
+// Leave INF if it is impossible to reach a gate.
+//
+func Test_WallsAndGates(t *testing.T) {
+	const INF = math.MaxInt16
+	var ts = []struct {
+		input [][]int
+		exp   [][]int
+	}{{[][]int{{INF, -1, 0, INF}, {INF, INF, INF, 0}, {INF, -1, INF, -1}, {0, -1, INF, INF}},
+		[][]int{{3, -1, 0, 1}, {2, 2, 1, 0}, {1, -1, 2, -1}, {0, -1, 3, 4}}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			wallsAndGates(ts[i].input)
+			assert.Equal(t, ts[i].exp, ts[i].input)
+		})
+	}
 }
