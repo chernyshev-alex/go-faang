@@ -234,9 +234,22 @@ func transpose(matrix [][]int) [][]int {
 	return tr
 }
 
-func setZeroes(matrix [][]int) [][]int {
-	panic("not implemented")
-
+func setZeroes(matrix [][]int) {
+	rows, cols := make(map[int]bool), make(map[int]bool)
+	for r := range matrix {
+		for c := range matrix[r] {
+			if matrix[r][c] == 0 {
+				rows[r], cols[c] = true, true
+			}
+		}
+	}
+	for r := range matrix {
+		for c := range matrix[r] {
+			if rows[r] || cols[c] {
+				matrix[r][c] = 0
+			}
+		}
+	}
 }
 
 func searchMatrix(matrix [][]int, target int) bool {
