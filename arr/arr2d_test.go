@@ -115,3 +115,53 @@ func Test_WallsAndGates(t *testing.T) {
 		})
 	}
 }
+
+// https://leetcode.com/problems/transpose-matrix/
+// 	Given a 2D integer array matrix, return the transpose of matrix.
+// The transpose of a matrix is the matrix flipped over its main diagonal,
+// switching the matrix's row and column indices.
+func Test_TransposeMatrix(t *testing.T) {
+	var ts = []struct {
+		input, exp [][]int
+	}{{[][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, [][]int{{1, 4, 7}, {2, 5, 8}, {3, 6, 9}}},
+		{[][]int{{1, 2, 3}, {4, 5, 6}}, [][]int{{1, 4}, {2, 5}, {3, 6}}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := transpose(ts[i].input)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+// https://leetcode.com/problems/set-matrix-zeroes/
+//
+func Test_SetMatrixZeroes(t *testing.T) {
+	var ts = []struct {
+		input, exp [][]int
+	}{{[][]int{{1, 1, 1}, {1, 0, 1}, {1, 1, 1}}, [][]int{{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			setZeroes(ts[i].input)
+			assert.Equal(t, ts[i].exp, ts[i].input)
+		})
+	}
+}
+
+// https://leetcode.com/problems/search-a-2d-matrix/
+//
+func Test_Search_matrix(t *testing.T) {
+	var ts = []struct {
+		input  [][]int
+		target int
+		exp    bool
+	}{{[][]int{{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 23, true}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := searchMatrix(ts[i].input, ts[i].target)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}

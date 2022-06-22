@@ -1,6 +1,7 @@
 package arr
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -217,4 +218,27 @@ func wallsAndGates(grid [][]int) {
 			}
 		}
 	}
+}
+
+func transpose(matrix [][]int) [][]int {
+	tr := make([][]int, len(matrix[0]))
+	for r := range tr {
+		tr[r] = make([]int, len(matrix))
+	}
+	for r := range matrix {
+		for c := range matrix[r] {
+			fmt.Printf("r%d ; c%d\n", r, c)
+			tr[c][r] = matrix[r][c]
+		}
+	}
+	return tr
+}
+
+func setZeroes(matrix [][]int) [][]int {
+	panic("not implemented")
+
+}
+
+func searchMatrix(matrix [][]int, target int) bool {
+	panic("not implemented")
 }
