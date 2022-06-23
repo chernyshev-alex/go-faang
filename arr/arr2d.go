@@ -253,5 +253,24 @@ func setZeroes(matrix [][]int) {
 }
 
 func searchMatrix(matrix [][]int, target int) bool {
-	panic("not implemented")
+	n_rows, n_cols := len(matrix), len(matrix[0])
+	for l, r := 0, len(matrix)*len(matrix[0]); l <= r; {
+		mid := (l + r) / 2
+		row, col := mid/n_cols, mid%n_cols
+		if row >= n_rows || col >= n_cols {
+			break
+		}
+		if matrix[row][col] == target {
+			return true
+		}
+		if target < matrix[row][col] {
+			if mid == 0 {
+				break
+			}
+			r = mid - 1
+		} else {
+			l = mid + 1
+		}
+	}
+	return false
 }
