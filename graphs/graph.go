@@ -1,5 +1,12 @@
 package graphs
 
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
 // --- Adjacency Lists ---
 
 func traversal_bfs(m [][]int) []int {
@@ -56,4 +63,33 @@ func traversalDfsMatrix(v int, m [][]int, values *[]int, seen *map[int]bool) {
 			traversalDfsMatrix(n, m, values, seen)
 		}
 	}
+}
+
+func numOfMinutes(n int, headID int, manager []int, informTime []int) int {
+
+	type tdfs func(int, [][]int) int
+	var dfs tdfs
+
+	dfs = func(nodeId int, emplsAdjList [][]int) int {
+		if len(emplsAdjList[nodeId]) == 0 {
+			return 0
+		}
+		max_time := 0
+		for _, n := range emplsAdjList[nodeId] {
+			max_time = max(max_time, dfs(n, emplsAdjList))
+		}
+		return max_time + informTime[nodeId]
+	}
+
+	// make adjacence list
+	employees_adj_ls := make([][]int, len(manager))
+	for r := range employees_adj_ls {
+		employees_adj_ls[r] = make([]int, 0)
+	}
+	for emp_id, manager_id := range manager {
+		if manager_id != -1 {
+			employees_adj_ls[manager_id] = append(employees_adj_ls[manager_id], emp_id)
+		}
+	}
+	return dfs(headID, employees_adj_ls)
 }
