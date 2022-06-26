@@ -93,3 +93,35 @@ func numOfMinutes(n int, headID int, manager []int, informTime []int) int {
 	}
 	return dfs(headID, employees_adj_ls)
 }
+
+// topological sort
+func canFinish(numCourses int, prerequisites [][]int) bool {
+	in_degree := make([]int, numCourses)
+	for _, row := range prerequisites {
+		in_degree[row[0]] += 1
+	}
+
+	stack := make([]int, 0)
+	for idx, v := range in_degree {
+		if v == 0 {
+			stack = append([]int{idx}, stack...) // push front
+		}
+	}
+
+	count := 0
+	for len(stack) > 0 {
+		var v int
+		v, stack = stack[0], stack[1:]
+		count += 1
+		for _, p := range prerequisites {
+			if v == p[1] {
+				in_degree[p[0]] -= 1
+				if in_degree[p[0]] == 0 {
+					stack = append([]int{p[0]}, stack...)
+				}
+			}
+		}
+
+	}
+	return count == numCourses
+}
