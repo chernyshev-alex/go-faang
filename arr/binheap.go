@@ -15,7 +15,7 @@ func NewBinaryHeap(fComp FnComparator) BinaryHeap {
 	return BinaryHeap{data: make([]interface{}, 0), fcomp: fComp}
 }
 
-func (pq *BinaryHeap) Push(x State) int {
+func (pq *BinaryHeap) Push(x interface{}) int {
 	pq.data = append(pq.data, x)
 	pq.siftUp()
 	return pq.Size()
@@ -23,7 +23,7 @@ func (pq *BinaryHeap) Push(x State) int {
 
 func (pq *BinaryHeap) Pop() (v interface{}, e bool) {
 	if len(pq.data) == 0 {
-		return State{}, false
+		return nil, false
 	}
 	if len(pq.data) > 1 {
 		pq.swap(0, pq.Size()-1)

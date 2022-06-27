@@ -1,7 +1,20 @@
 package graphs
 
+import (
+	"math"
+
+	"github.com/go-mci-faans/arr"
+)
+
 func max(a, b int) int {
 	if a > b {
+		return a
+	}
+	return b
+}
+
+func min(a, b int) int {
+	if a < b {
 		return a
 	}
 	return b
@@ -124,4 +137,76 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 
 	}
 	return count == numCourses
+}
+
+// Requires Positive Weights, no cycles
+func networkDelayTime_Dejkstra(times [][]int, n int, k int) int {
+	type Pair struct{ to, w int }
+	heapComparator := func(a, b interface{}) bool { return a.(int) < b.(int) }
+	minHeap := arr.NewBinaryHeap(heapComparator)
+
+	dist, adjLs := make([]int, n), make([][]Pair, n)
+	for i := 0; i < n; i++ {
+		dist[i] = math.MaxUint16
+		adjLs[i] = make([]Pair, 0)
+	}
+
+	from_idx := k - 1
+	dist[from_idx] = 0
+	minHeap.Push(from_idx)
+
+	for _, t := range times {
+		from, to, w := t[0], t[1], t[2]
+		adjLs[from-1] = append(adjLs[from-1], Pair{to - 1, w})
+	}
+
+	for minHeap.Size() > 0 {
+		v, _ := minHeap.Pop()
+		v_idx := v.(int)
+		for _, p := range adjLs[v_idx] {
+			if dist[v_idx]+p.w < dist[p.to] {
+				dist[p.to] = dist[v_idx] + p.w
+				minHeap.Push(p.to)
+			}
+		}
+	}
+
+	max_element := 0
+	for _, v := range dist {
+		max_element = max(max_element, v)
+	}
+	if max_element == math.MaxUint16 {
+		return -1
+	}
+	return max_element
+}
+
+// Bellman Ford for Negative Weights
+func networkDelayTime_BellmanFord(times [][]int, n int, k int) int {
+	dist := make([]int, n)
+	for i := range dist {
+		dist[i] = math.MaxUint16
+	}
+	dist[k-1] = 0
+	for i := 0; i < n-1; i++ {
+		count := 0
+		for _, t := range times {
+			from, to, w := t[0], t[1], t[2]
+			if dist[from-1]+w < dist[to-1] {
+				dist[to-1] = dist[from-1] + w
+				count += 1
+			}
+		}
+		if count == 0 {
+			break
+		}
+	}
+	max_element := 0
+	for _, v := range dist {
+		max_element = max(max_element, v)
+	}
+	if max_element == math.MaxUint16 {
+		return -1
+	}
+	return max_element
 }

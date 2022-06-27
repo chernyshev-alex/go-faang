@@ -133,15 +133,42 @@ func Test_CourseScheduleCanFinish(t *testing.T) {
 	}
 }
 
-// // https://leetcode.com/problems/course-schedule/
+// Network Delay Time
+// https://leetcode.com/problems/network-delay-time/
+// You are given a network of n nodes, labeled from 1 to n.
+// You are also given times, a list of travel times as directed edges times[i] = (ui, vi, wi), where ui is the source node,
+// vi is the target node, and wi is the time it takes for a signal to travel from source to target.
+// We will send a signal from a given node k. Return the minimum time it takes for all the n nodes to receive the signal.
+// If it is impossible for all the n nodes to receive the signal, return -1.
 
-// #[test]
-// fn can_finish_test() {
-//   let result = can_finish(4,
-//     vec![vec![2,0], vec![1,0], vec![3,1],vec![3,2],vec![1,3]]);
-//   assert_eq!(false, result);
-//   let result = can_finish(2, vec![vec![1,0]]);
-//   assert_eq!(true, result);
-//   let result = can_finish(2, vec![vec![1,0], vec![0,1]]);
-//   assert_eq!(false, result);
-// }
+func Test_NetworkDelayTimeDejkstra(t *testing.T) {
+	var ts = []struct {
+		input [][]int
+		n, k  int
+		exp   int
+	}{{[][]int{{2, 1, 1}, {2, 3, 1}, {3, 4, 1}}, 4, 2, 2},
+		{[][]int{{1, 2, 1}}, 2, 1, 1},
+		{[][]int{{1, 2, 1}}, 2, 2, -1}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := networkDelayTime_Dejkstra(ts[i].input, ts[i].n, ts[i].k)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+func Test_NetworkDelayTimeBellmanFord(t *testing.T) {
+	var ts = []struct {
+		input [][]int
+		n, k  int
+		exp   int
+	}{{[][]int{{1, 4, 2}, {1, 2, 9}, {4, 2, -4}, {2, 5, -3}, {4, 5, 6}, {3, 2, 3}, {5, 3, 7}, {3, 1, 5}}, 5, 1, 2}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := networkDelayTime_BellmanFord(ts[i].input, ts[i].n, ts[i].k)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
