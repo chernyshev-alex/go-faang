@@ -107,7 +107,9 @@ func numOfMinutes(n int, headID int, manager []int, informTime []int) int {
 	return dfs(headID, employees_adj_ls)
 }
 
-// topological sort
+// Topological sort =========
+
+// Course Schedule
 func canFinish(numCourses int, prerequisites [][]int) bool {
 	in_degree := make([]int, numCourses)
 	for _, row := range prerequisites {
