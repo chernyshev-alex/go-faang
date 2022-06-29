@@ -77,6 +77,127 @@ func minCostClimbingStairsMemoOpt(cost []int) int {
 	return min(dp1, dp2)
 }
 
+func knight_directions() [][]int {
+	return [][]int{{-2, -1}, {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}}
+}
+
+func knightProbability(n int, k int, row int, column int) float64 {
+	if row < 0 || column < 0 || row >= n || column >= n {
+		return 0.0
+	}
+	if k == 0 {
+		return 1.0
+	}
+	res := 0.0
+	for _, d := range knight_directions() {
+		res += knightProbability(n, k-1, row+d[0], column+d[1]) / 8.0
+	}
+	return res
+}
+
+func knightProbabilityMemo(n int, k int, row int, column int) float64 {
+
+	dp := make([][][]float64, k+1)
+	for i := range dp {
+		dp[i] = make([][]float64, n)
+		for j := range dp[i] {
+			dp[i][j] = make([]float64, n)
+			for l := range dp[i][j] {
+				dp[i][j][l] = -1
+			}
+		}
+	}
+
+	type TSolveFun func(n int, k int, row int, column int) float64
+	var solveFun TSolveFun
+	solveFun = func(n int, k int, row int, col int) float64 {
+		if row < 0 || col < 0 || row >= n || col >= n {
+			return 0.0
+		}
+		if k == 0 {
+			return 1.0
+		}
+		if dp[k][row][col] != -1.0 {
+			return dp[k][row][col]
+		}
+
+		res := 0.0
+		for _, d := range knight_directions() {
+			res += solveFun(n, k-1, row+d[0], col+d[1]) / 8.0
+		}
+		dp[k][row][col] = res
+		return res
+	}
+	return solveFun(n, k, row, column)
+}
+
+func knightProbabilityBottomUp(n int, k int, row int, column int) float64 {
+	dp := make([][][]float64, k+1)
+	for i := range dp {
+		dp[i] = make([][]float64, n)
+		for j := range dp[i] {
+			dp[i][j] = make([]float64, n)
+			for l := range dp[i][j] {
+				dp[i][j][l] = 1.0
+			}
+		}
+	}
+	for step := 1; step <= k; step++ {
+		for row := 0; row < n; row++ {
+			for col := 0; col < n; col++ {
+				for _, d := range knight_directions() {
+					prev_row, prev_col := row+d[0], col+d[1]
+					if prev_row >= 0 && prev_row < n && prev_col >= 0 && prev_col < n {
+						dp[step][row][col] += dp[(step - 1)][prev_row][prev_col] / 8.0
+					}
+				}
+			}
+		}
+	}
+	res := 0.0
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			res += dp[k][i][j]
+		}
+	}
+	return res
+}
+
+func knightProbabilityBottomUpOpt(n int, k int, row int, column int) float64 {
+	dp_prev, dp_next := make([][]float64, n), make([][]float64, n)
+	for r := 0; r < n; r++ {
+		dp_prev[r] = make([]float64, n)
+		dp_next[r] = make([]float64, n)
+	}
+
+	dp_prev[row][column] = 1.0
+	for step := 1; step <= k; step++ {
+		for row := 0; row < n; row++ {
+			for col := 0; col < n; col++ {
+				for _, d := range knight_directions() {
+					prev_row, prev_col := row+d[0], col+d[1]
+					if prev_row >= 0 && prev_row < n && prev_col >= 0 && prev_col < n {
+						dp_next[row][col] += dp_prev[prev_row][prev_col] / 8.0
+					}
+				}
+			}
+		}
+		dp_prev = dp_next
+		dp_next = make([][]float64, n)
+		for r := range dp_next {
+			dp_next[r] = make([]float64, n)
+		}
+	}
+
+	res := 0.0
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			res += dp_prev[i][j]
+		}
+	}
+	return res
+}
+
 func longestCommonSubsequence(text1 string, text2 string) int {
 	dp := make([][]uint16, len(text1)+1)
 	for i := range dp {
