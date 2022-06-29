@@ -58,7 +58,70 @@ func Test_MinCostClimbingStairsTopBottomMemoOpt(t *testing.T) {
 	}
 }
 
-// == https://leetcode.com/problems/knight-probability-in-chessboard/  ==
+// == https://leetcode.com/problems/knight-probability-in-chessboard/
+// On an n x n chessboard, a knight starts at the cell (row, column) and attempts to make exactly k moves.
+// The rows and columns are 0-indexed, so the top-left cell is (0, 0), and the bottom-right cell is (n - 1, n - 1).
+// A chess knight has eight possible moves it can make, as illustrated below.
+// Each move is two cells in a cardinal direction, then one cell in an orthogonal direction.
+// Each time the knight is to move, it chooses one of eight possible moves uniformly at random (even if the piece would go off the chessboard) and moves there.
+// The knight continues moving until it has made exactly k moves or has moved off the chessboard.
+// Return the probability that the knight remains on the board after it has stopped moving.
+
+func Test_KnightProbability(t *testing.T) {
+	var ts = []struct {
+		n, k, row, column int
+		exp               float64
+	}{{1, 0, 0, 0, 1.0}, {3, 2, 0, 0, 0.06250}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := knightProbability(ts[i].n, ts[i].k, ts[i].row, ts[i].column)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+func Test_KnightProbabilityMemo(t *testing.T) {
+	var ts = []struct {
+		n, k, row, column int
+		exp               float64
+	}{{1, 0, 0, 0, 1.0}, {3, 2, 0, 0, 0.06250}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := knightProbabilityMemo(ts[i].n, ts[i].k, ts[i].row, ts[i].column)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+func Test_KnightProbabilityBottomUp(t *testing.T) {
+	var ts = []struct {
+		n, k, row, column int
+		exp               float64
+	}{{1, 0, 0, 0, 1.0}, {3, 2, 0, 0, 0.06250}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := knightProbabilityBottomUp(ts[i].n, ts[i].k, ts[i].row, ts[i].column)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+func Test_KnightProbabilityBottomUpOpt(t *testing.T) {
+	var ts = []struct {
+		n, k, row, column int
+		exp               float64
+	}{{1, 0, 0, 0, 1.0}, {3, 2, 0, 0, 0.06250}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := knightProbabilityBottomUpOpt(ts[i].n, ts[i].k, ts[i].row, ts[i].column)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
 
 // Longest Common Subsequence
 //
