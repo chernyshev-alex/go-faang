@@ -148,10 +148,10 @@ func solveNQueens(n int) [][]string {
 		return sol
 	}
 
-	type SolveFnType func(n, row int, queen_in_cols []int)
+	type SolveFnType func(row int, queen_in_cols []int)
 	var doSolveFn SolveFnType
 
-	doSolveFn = func(n, row int, queen_in_cols []int) {
+	doSolveFn = func(row int, queen_in_cols []int) {
 		if row == n {
 			sol := genSolution(n, queen_in_cols)
 			result = append(result, sol)
@@ -159,13 +159,13 @@ func solveNQueens(n int) [][]string {
 			for col := 0; col < n; col++ {
 				queen_in_cols = append(queen_in_cols, col)
 				if isValid(queen_in_cols) {
-					doSolveFn(n, row+1, queen_in_cols)
+					doSolveFn(row+1, queen_in_cols)
 				}
 				queen_in_cols = queen_in_cols[:len(queen_in_cols)-1]
 			}
 		}
 	}
 
-	doSolveFn(n, 0, make([]int, 0))
+	doSolveFn(0, make([]int, 0))
 	return result
 }
