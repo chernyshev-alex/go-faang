@@ -1,6 +1,9 @@
 package btrack
 
-import "math"
+import (
+	"bytes"
+	"math"
+)
 
 func solveSudoku(board [][]byte) {
 
@@ -72,4 +75,97 @@ func solveSudoku(board [][]byte) {
 		}
 	}
 	solveSudokuBackTracking(0, 0)
+}
+
+// ---- Palindrome Partitioning --
+
+func partition(s string) [][]string {
+	isPalindrome := func(from, to int, str string) bool {
+		for ; from < to; from, to = from+1, to-1 {
+			if str[from] != str[to] {
+				return false
+			}
+		}
+		return true
+	}
+
+	type PartitioningFn func(int, []string)
+	var doPartition PartitioningFn
+
+	result, ln := make([][]string, 0), len(s)
+	doPartition = func(index int, ps []string) {
+		if index == ln {
+			cps := make([]string, len(ps))
+			copy(cps, ps)
+			result = append(result, cps)
+		} else {
+			for i := index; i < ln; i++ {
+				if isPalindrome(index, i, s) {
+					part := s[index : i+1]
+					ps = append(ps, part)
+					doPartition(i+1, ps)
+					ps = ps[:len(ps)-1]
+				}
+			}
+		}
+	}
+	ps := make([]string, 0)
+	doPartition(0, ps)
+	return result
+}
+
+func solveNQueens(n int) [][]string {
+
+	result := make([][]string, 0)
+
+	isValid := func(queen_in_cols []int) bool {
+		if len(queen_in_cols) == 1 {
+			return true
+		}
+		r := len(queen_in_cols) - 1
+		c := queen_in_cols[r]
+		for i := 0; i < r; i++ {
+			if queen_in_cols[i] == c || r-i == int(math.Abs(float64(queen_in_cols[i])-float64(c))) {
+				return false
+			}
+		}
+		return true
+	}
+
+	genSolution := func(n int, queen_in_cols []int) []string {
+		sol := make([]string, 0)
+		for r := range queen_in_cols {
+			var b bytes.Buffer
+			for c := 0; c < n; c++ {
+				ss := '.'
+				if c == queen_in_cols[r] {
+					ss = 'Q'
+				}
+				b.WriteRune(ss)
+			}
+			sol = append(sol, b.String())
+		}
+		return sol
+	}
+
+	type SolveFnType func(n, row int, queen_in_cols []int)
+	var doSolveFn SolveFnType
+
+	doSolveFn = func(n, row int, queen_in_cols []int) {
+		if row == n {
+			sol := genSolution(n, queen_in_cols)
+			result = append(result, sol)
+		} else {
+			for col := 0; col < n; col++ {
+				queen_in_cols = append(queen_in_cols, col)
+				if isValid(queen_in_cols) {
+					doSolveFn(n, row+1, queen_in_cols)
+				}
+				queen_in_cols = queen_in_cols[:len(queen_in_cols)-1]
+			}
+		}
+	}
+
+	doSolveFn(n, 0, make([]int, 0))
+	return result
 }

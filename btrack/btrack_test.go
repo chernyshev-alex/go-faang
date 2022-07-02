@@ -52,3 +52,45 @@ func Test_Sudoku(t *testing.T) {
 		})
 	}
 }
+
+func Test_PalindromPartition(t *testing.T) {
+	var ts = []struct {
+		input string
+		exp   [][]string
+	}{{"cdd", [][]string{{"c", "d", "d"}, {"c", "dd"}}},
+		{"aab", [][]string{{"a", "a", "b"}, {"aa", "b"}}},
+		{"a", [][]string{{"a"}}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := partition(ts[i].input)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+//
+// https://leetcode.com/problems/n-queens/
+//
+// The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens
+// attack each other.
+// Given an integer n, return all distinct solutions to the n-queens puzzle.
+// You may return the answer in any order.
+// Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.'
+// both indicate a queen and an empty space, respectively.
+//
+func Test_SolveNQueens(t *testing.T) {
+	var ts = []struct {
+		input int
+		exp   [][]string
+	}{{1, [][]string{{"Q"}}},
+		{4, [][]string{{".Q..", "...Q", "Q...", "..Q."}, {"..Q.", "Q...", "...Q", ".Q.."}}},
+	}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := solveNQueens(ts[i].input)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
