@@ -22,7 +22,6 @@ func alloc_ints_with(size uint, values int) []int {
 	return arr
 }
 
-// https://leetcode.com/problems/backspace-string-compare/
 func backSpaceCompare(s string, t string) bool {
 	fbuild := func(s string) (res []byte) {
 		for _, c := range s {
@@ -71,7 +70,6 @@ func reverse(s string) string {
 	return string(a)
 }
 
-// https://leetcode.com/problems/valid-palindrome/
 func isPalindrome(s string) bool {
 	for b, l, r := []byte(strings.ToLower(s)), 0, len(s)-1; l < r; l, r = l+1, r-1 {
 		for l < r && !(unicode.IsDigit(rune(b[l])) || unicode.IsLetter(rune(b[l]))) {
@@ -87,8 +85,6 @@ func isPalindrome(s string) bool {
 	return true
 }
 
-// https://leetcode.com/problems/valid-palindrome-ii/
-// Given a string s, return true if the s can be palindrome after deleting at most one character from it.
 func validPalindrome(s string) bool {
 	isPalindrome := func(b []byte, l, r int) bool {
 		for ; l < r; l, r = l+1, r-1 {
@@ -107,9 +103,6 @@ func validPalindrome(s string) bool {
 	return true
 }
 
-// https://leetcode.com/problems/longest-substring-without-repeating-characters/
-// Given a string s, find the length of the longest substring without repeating characters.
-// Sliding window
 func lengthOfLongestSubstring(s string) int {
 	ln := len(s)
 	if ln <= 1 {

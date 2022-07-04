@@ -5,6 +5,11 @@ import (
 	"testing"
 )
 
+// https://leetcode.com/problems/backspace-string-compare/
+//
+// Given two strings s and t, return true if they are equal when both are typed into empty text editors.
+// '#' means a backspace character.
+
 func Test_BackspaceCompare(t *testing.T) {
 	var ts = []struct {
 		s1, s2   string
@@ -37,6 +42,8 @@ func Test_BackspaceCompareRev(t *testing.T) {
 	}
 }
 
+// Reverse string
+
 func Test_Reverse(t *testing.T) {
 	var ts = []struct {
 		input, expected string
@@ -51,6 +58,8 @@ func Test_Reverse(t *testing.T) {
 		})
 	}
 }
+
+// https://leetcode.com/problems/valid-palindrome/
 
 func Test_validPalindrome(t *testing.T) {
 	var ts = []struct {
@@ -84,6 +93,12 @@ func Test_IsPalindrome(t *testing.T) {
 	}
 }
 
+//
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/
+//
+// Given a string s, find the length of the longest substring without repeating characters.
+// Sliding window
+//
 func Test_LengthOfLongestSubstring(t *testing.T) {
 	var ts = []struct {
 		input    string

@@ -169,3 +169,25 @@ func solveNQueens(n int) [][]string {
 	doSolveFn(0, make([]int, 0))
 	return result
 }
+
+//
+// String all permutations
+//
+func do_permute(s []rune, l, r int, result *[]string) {
+	if l == r {
+		*result = append(*result, string(s))
+	} else {
+		for i := l; i <= r; i++ {
+			s[l], s[i] = s[i], s[l]
+			do_permute(s, l+1, r, result)
+			s[l], s[i] = s[i], s[l]
+		}
+	}
+}
+
+func permute(s string) []string {
+	result := make([]string, 0)
+	do_permute([]rune(s), 0, len(s)-1, &result)
+	return result
+
+}

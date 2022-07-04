@@ -94,3 +94,20 @@ func Test_SolveNQueens(t *testing.T) {
 		})
 	}
 }
+
+//
+// Print all permutations of a given string
+//
+func Test_Permutation(t *testing.T) {
+	var ts = []struct {
+		input string
+		exp   []string
+	}{{"ABC", []string{"ABC", "ACB", "BAC", "BCA", "CBA", "CAB"}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := permute(ts[i].input)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
