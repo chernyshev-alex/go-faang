@@ -114,3 +114,22 @@ func Test_LengthOfLongestSubstring(t *testing.T) {
 		})
 	}
 }
+
+// Longest Palindromic Substring
+// Given a string, find the longest substring which is a palindrome.
+
+func Test_LongestPalindromicSubstring(t *testing.T) {
+	var ts = []struct {
+		input    string
+		expected string
+	}{{"Geeks", "ee"}, {"forgeeksskeegfor", "geeksskeeg"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := longestPalindromicSubstring(ts[i].input)
+			if result != ts[i].expected {
+				t.Errorf("input : %v exp.: %v, got: %v", ts[i].input, ts[i].expected, result)
+			}
+		})
+	}
+}

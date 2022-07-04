@@ -120,3 +120,24 @@ func lengthOfLongestSubstring(s string) int {
 	}
 	return result
 }
+
+func longestPalindromicSubstring(s string) string {
+	maxLen, ps := 0, ""
+
+	subsFn := func(l, r int) {
+		for ln := len(s); l >= 0 && r < ln && s[l] == s[r]; {
+			l, r = l-1, r+1
+		}
+
+		if r-l-1 >= maxLen {
+			ps = s[l+1 : r]
+			maxLen = r - l - 1
+		}
+	}
+
+	for i := range s {
+		subsFn(i, i)   // check for odd length
+		subsFn(i, i+1) // check for event length
+	}
+	return ps
+}
