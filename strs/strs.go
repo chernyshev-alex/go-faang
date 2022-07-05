@@ -1,6 +1,7 @@
 package strs
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 	"unicode"
@@ -123,9 +124,9 @@ func lengthOfLongestSubstring(s string) int {
 
 func longestPalindromicSubstring(s string) string {
 	maxLen, ps := 0, ""
-
 	subsFn := func(l, r int) {
 		for ln := len(s); l >= 0 && r < ln && s[l] == s[r]; {
+			fmt.Printf("1) l=%d r=%d  sl=%c sr=%c\n", l, r, s[l], s[r])
 			l, r = l-1, r+1
 		}
 

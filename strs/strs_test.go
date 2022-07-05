@@ -122,7 +122,7 @@ func Test_LongestPalindromicSubstring(t *testing.T) {
 	var ts = []struct {
 		input    string
 		expected string
-	}{{"Geeks", "ee"}, {"forgeeksskeegfor", "geeksskeeg"}}
+	}{{"Geeks", "ee1"}, {"forgeeksskeegfor", "geeksskeeg"}}
 
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
