@@ -215,3 +215,40 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 	}
 	return int(dp[len(text1)][len(text2)])
 }
+
+func getMaxGold(gold [][]int, n, m int) int {
+
+	dp := make([][]int, n)
+	for r := range dp {
+		dp[r] = make([]int, m)
+		for c := range dp[r] {
+			dp[r][c] = -1
+		}
+	}
+
+	type CollectGoldFn func(r, c int) int
+	var collectGoldFn CollectGoldFn
+
+	collectGoldFn = func(r, c int) int {
+		if (r < 0) || (r == n) || (c == m) {
+			return 0
+		}
+
+		rightUpperDiag := collectGoldFn(r-1, c+1)
+
+		right := collectGoldFn(r, c+1)
+
+		rightLowerDiag := collectGoldFn(r+1, c+1)
+
+		return gold[r][c] + max(max(rightUpperDiag, rightLowerDiag), right)
+
+	}
+
+	maxGold := 0
+	for row := 0; row < n; row++ {
+		gCollected := collectGoldFn(row, 0)
+		maxGold = max(maxGold, gCollected)
+	}
+	return maxGold
+
+}

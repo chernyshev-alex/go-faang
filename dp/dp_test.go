@@ -59,6 +59,7 @@ func Test_MinCostClimbingStairsTopBottomMemoOpt(t *testing.T) {
 }
 
 // == https://leetcode.com/problems/knight-probability-in-chessboard/
+//
 // On an n x n chessboard, a knight starts at the cell (row, column) and attempts to make exactly k moves.
 // The rows and columns are 0-indexed, so the top-left cell is (0, 0), and the bottom-right cell is (n - 1, n - 1).
 // A chess knight has eight possible moves it can make, as illustrated below.
@@ -126,7 +127,9 @@ func Test_KnightProbabilityBottomUpOpt(t *testing.T) {
 // Longest Common Subsequence
 //
 // https://leetcode.com/problems/longest-common-subsequence
-// Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0.
+//
+// Given two strings text1 and text2, return the length of their longest common subsequence.
+// If there is no common subsequence, return 0.
 // A subsequence of a string is a new string generated from the original string with some characters
 // (can be none) deleted without changing the relative order of the remaining characters.
 // For example, "ace" is a subsequence of "abcde".
@@ -142,6 +145,29 @@ func Test_LongestCommonSubsequence(t *testing.T) {
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
 			result := longestCommonSubsequence(ts[i].s1, ts[i].s2)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+// Gold Mine Problem
+//
+// Given a gold mine of n*m dimensions. Each field in this mine contains a positive integer which is the amount
+// of gold in tons. Initially the miner is at first column but can be at any row.
+// He can move only (right->,right up /,right down\) that is from a given cell, the miner can move
+// to the cell diagonally up towards the right or right or diagonally down towards the right.
+// Find out maximum amount of gold he can collect.
+
+func Test_GoldMinerProblem(t *testing.T) {
+	var ts = []struct {
+		gold [][]int
+		m, n int
+		exp  int
+	}{{[][]int{{1, 3, 1, 5}, {2, 2, 4, 1}, {5, 0, 2, 3}, {0, 6, 1, 2}}, 4, 4, 16}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := getMaxGold(ts[i].gold, ts[i].n, ts[i].m)
 			assert.Equal(t, ts[i].exp, result)
 		})
 	}
