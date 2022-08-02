@@ -200,3 +200,62 @@ func dfs(n *TreeNode, min int, max int) bool {
 func isValidBST(root *TreeNode) bool {
 	return dfs(root, math.MinInt64, math.MaxInt64)
 }
+
+// --  BinaryTree ---
+type BinaryTree struct {
+	root *TreeNode
+}
+
+func (t *BinaryTree) Insert(v int) {
+	t.insertInternal(&t.root, v)
+}
+
+func (t *BinaryTree) insertInternal(pn **TreeNode, data int) {
+	if *pn == nil {
+		n := new(TreeNode)
+		n.Val = data
+		*pn = n
+	} else {
+		if (*pn).Val < data {
+			t.insertInternal(&(*pn).Right, data)
+		}
+		if (*pn).Val > data {
+			t.insertInternal(&(*pn).Left, data)
+		}
+	}
+}
+
+func (t *BinaryTree) FindNodeByValue(v int) *TreeNode {
+	for curr := t.root; curr != nil; {
+		switch {
+		case curr.Val == v:
+			return curr
+		case v < curr.Val:
+			curr = curr.Left
+		case v > curr.Val:
+			curr = curr.Right
+		}
+	}
+	return nil
+}
+
+func (t *BinaryTree) InOrderSuccessor(from int) int {
+	result := t.root.Val
+	t.findMin(t.root, from, &result)
+	return result
+}
+
+func (t *BinaryTree) findMin(node *TreeNode, v int, minVal *int) {
+	if node == nil {
+		return
+	}
+	if v < node.Val {
+		if node.Val < *minVal { // update min if required
+			*minVal = node.Val
+		}
+		t.findMin(node.Left, v, minVal)
+	}
+	if v >= node.Val {
+		t.findMin(node.Right, v, minVal)
+	}
+}

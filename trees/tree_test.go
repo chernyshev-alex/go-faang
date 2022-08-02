@@ -170,3 +170,27 @@ func Test_IsValidBST(t *testing.T) {
 		})
 	}
 }
+
+func Test_InOrderSuccessor(t *testing.T) {
+	var ts = []struct {
+		input     []int
+		start     int
+		successor int
+	}{{[]int{20, 8, 22, 4, 12, 10, 14}, 8, 10},
+		{[]int{20, 8, 22, 4, 12, 10, 14}, 10, 12},
+		{[]int{20, 8, 22, 4, 12, 10, 14}, 14, 20}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			tree := new(BinaryTree)
+			for _, n := range ts[i].input {
+				tree.Insert(n)
+			}
+			result := tree.InOrderSuccessor(ts[i].start)
+			if result != ts[i].successor {
+				t.Errorf("input %v, start %d, exp %v, got %v", ts[i].input, ts[i].start,
+					ts[i].successor, result)
+			}
+		})
+	}
+}
