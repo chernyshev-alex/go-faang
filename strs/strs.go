@@ -2,6 +2,8 @@ package strs
 
 import (
 	"fmt"
+	"math"
+	"regexp"
 	"sort"
 	"strings"
 	"unicode"
@@ -141,4 +143,99 @@ func longestPalindromicSubstring(s string) string {
 		subsFn(i, i+1) // check for event length
 	}
 	return ps
+}
+
+func subseqIndexesIter(s string, subs string) []int {
+	result := make([]int, 0)
+
+	maxPos := len(s) - len(subs)
+	for offset := 0; offset < maxPos; {
+		for ; offset < maxPos && subs[0] != s[offset]; offset++ {
+		}
+
+		startPos := offset
+		matched, i := 0, 0
+		for ; i < len(subs) && s[offset] == subs[i]; offset, i = offset+1, i+1 {
+			matched++
+		}
+		if matched == len(subs) {
+			result = append(result, startPos)
+		}
+
+		offset = startPos + 1
+	}
+
+	return result
+}
+
+func subseqIndexesRegExp(s string, subs string) [][]int {
+	re := regexp.MustCompile(subs)
+	return re.FindAllStringIndex(s, -1)
+}
+
+func subseqIndexesReq(s string, subs string) []int {
+	result := make([]int, 0)
+	subseqIndexesReqPart(s, "", subs, 0, &result)
+	return result
+}
+
+func subseqIndexesReqPart(s string, spart string, subs string, pos int, result *[]int) {
+	if pos >= len(s)-len(subs) {
+		return
+	}
+
+	if spart == subs {
+		*result = append(*result, pos-1)
+		subseqIndexesReqPart(s, s[pos:pos+len(subs)], subs, pos+1, result)
+		return
+	}
+
+	subseqIndexesReqPart(s, s[pos:pos+len(subs)], subs, pos+1, result)
+}
+
+func allSubsets(chars []byte) [][]byte {
+	all_counter := int(math.Pow(2, float64(len(chars))))
+	result, partial_result := make([][]byte, 0), make([]byte, 0)
+
+	for i := 0; i < all_counter; i++ {
+		for j := 0; j < len(chars); j++ {
+			if i&(1<<j) > 0 {
+				partial_result = append(partial_result, chars[j])
+			}
+		}
+		result = append(result, partial_result)
+		partial_result = make([]byte, 0)
+
+	}
+	return result
+}
+
+func allPermutationsRec(s string, prefix string, output *[]string) {
+	if len(s) == 0 {
+		*output = append(*output, prefix)
+	}
+	for i := range s {
+		allPermutationsRec(s[0:i]+s[i+1:], prefix+s[i:i+1], output)
+	}
+}
+
+func allPermutationsIter(s []byte) []string {
+	result, indexes := make([]string, 0), make([]int, len(s))
+	for i := 0; i < len(s); {
+		if indexes[i] < i {
+			if i%2 == 0 {
+				s[0], s[i] = s[i], s[0]
+			} else {
+				s[indexes[i]], s[i] = s[i], s[indexes[i]]
+			}
+			indexes[i]++
+			i = 0
+
+		} else {
+			indexes[i] = 0
+			i++
+		}
+		result = append(result, string(s))
+	}
+	return result
 }

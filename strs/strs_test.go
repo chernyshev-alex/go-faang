@@ -3,6 +3,8 @@ package strs
 import (
 	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // https://leetcode.com/problems/backspace-string-compare/
@@ -122,7 +124,7 @@ func Test_LongestPalindromicSubstring(t *testing.T) {
 	var ts = []struct {
 		input    string
 		expected string
-	}{{"Geeks", "ee1"}, {"forgeeksskeegfor", "geeksskeeg"}}
+	}{{"Geeks", "ee"}, {"forgeeksskeegfor", "geeksskeeg"}}
 
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
@@ -130,6 +132,94 @@ func Test_LongestPalindromicSubstring(t *testing.T) {
 			if result != ts[i].expected {
 				t.Errorf("input : %v exp.: %v, got: %v", ts[i].input, ts[i].expected, result)
 			}
+		})
+	}
+}
+
+// find all indexes of subseq in arr
+// beware of case: 'arr="aaaaa", subseq="aaa"' -> Se	q(0, 1, 2)
+func Test_SubseqIndexes(t *testing.T) {
+	var ts = []struct {
+		str, substr string
+		expected    []int
+	}{{"000AAAAA1111", "AA", []int{3, 4, 5, 6}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, subseqIndexesIter(ts[i].str, ts[i].substr))
+
+		})
+	}
+}
+
+func Test_SubseqIndexesReq(t *testing.T) {
+	var ts = []struct {
+		str, substr string
+		expected    []int
+	}{{"012AAAAA3456", "AA", []int{3, 4, 5, 6}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, subseqIndexesReq(ts[i].str, ts[i].substr))
+
+		})
+	}
+}
+
+// non overlapping
+func Test_SubseqIndexesRegexp(t *testing.T) {
+	var ts = []struct {
+		str, substr string
+		expected    [][]int
+	}{{"012AAAAA3456", "AA", [][]int{{3, 5}, {5, 7}}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, subseqIndexesRegExp(ts[i].str, ts[i].substr))
+
+		})
+	}
+}
+func Test_AllSubsets(t *testing.T) {
+	var ts = []struct {
+		input    []byte
+		expected [][]byte
+	}{{[]byte{'a', 'b', 'c'}, [][]byte{{}, {'a'}, {'b'}, {'a', 'b'}, {'c'}, {'a', 'c'}, {'b', 'c'}, {'a', 'b', 'c'}}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, allSubsets(ts[i].input))
+		})
+	}
+}
+
+func Test_PermutationsRec(t *testing.T) {
+	var ts = []struct {
+		input    string
+		expected []string
+	}{{"abc", []string{"abc", "acb", "bac", "bca", "cab", "cba"}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			output := make([]string, 0)
+			allPermutationsRec(string(ts[i].input), "", &output)
+			assert.Equal(t, ts[i].expected, output)
+
+		})
+	}
+}
+
+func Test_PermutationsIter(t *testing.T) {
+	var ts = []struct {
+		input    string
+		expected []string
+	}{{"abc", []string{"abc", "acb", "bac", "bca", "cab", "cba"}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := allPermutationsIter([]byte(ts[i].input))
+			assert.Equal(t, ts[i].expected, result)
+
 		})
 	}
 }
