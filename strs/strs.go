@@ -239,3 +239,100 @@ func allPermutationsIter(s []byte) []string {
 	}
 	return result
 }
+
+// "AATTAAAARYYY", "2A2T4AR3Y"
+func stringCompressorRec(s string) string {
+	if len(s) == 0 {
+		return ""
+	}
+	if len(s) == 1 {
+		return s
+	}
+	buf := ""
+	stringCompressorRec__(s, 0, 1, &buf)
+	return buf
+}
+
+func stringCompressorRec__(s string, l, r int, result *string) {
+	fmtPart := func() string {
+		var w string
+		if r-l == 1 {
+			w = fmt.Sprintf("%c", s[l])
+		} else {
+			w = fmt.Sprintf("%d%c", r-l, s[l])
+		}
+		return w
+	}
+
+	if r >= len(s) {
+		*result = *result + fmtPart()
+		return
+	}
+
+	if s[l] != s[r] {
+		*result = *result + fmtPart()
+		stringCompressorRec__(s, r, r+1, result)
+		return
+	}
+
+	if s[l] == s[r] {
+		stringCompressorRec__(s, l, r+1, result)
+	}
+
+}
+
+func stringCompressorIter(s string) string {
+	result := ""
+	if len(s) == 0 {
+		return result
+	}
+	if len(s) == 1 {
+		return s
+	}
+
+	prev_seen, last_seen_cnt := s[0], 1
+	for i := 1; i < len(s); i++ {
+		var v byte = s[i]
+		if prev_seen != v {
+			var w string = string(prev_seen)
+			if last_seen_cnt > 1 {
+				w = fmt.Sprintf("%d%c", last_seen_cnt, prev_seen)
+			}
+			result += w
+			last_seen_cnt = 0
+		}
+		prev_seen = byte(v)
+		last_seen_cnt += 1
+	}
+	if last_seen_cnt > 1 {
+		var w = fmt.Sprintf("%d%c", last_seen_cnt, prev_seen)
+		result += w
+	}
+	return result
+}
+
+func reverseStrWithSpaces(s string) string {
+	result, stack := make([]rune, 0), make([]rune, 0)
+
+	for _, v := range s {
+		if v != ' ' {
+			stack = append([]rune{v}, stack...)
+
+		} else {
+			for len(stack) > 0 { // pop from stack
+				var c rune
+				c, stack = stack[0], stack[1:]
+				result = append(result, c)
+			}
+			result = append(result, ' ')
+		}
+	}
+	// if no space after last word
+	for len(stack) > 0 {
+		var c rune
+		c, stack = stack[0], stack[1:]
+		result = append(result, c)
+	}
+
+	return string(result)
+}

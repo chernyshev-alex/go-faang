@@ -223,3 +223,56 @@ func Test_PermutationsIter(t *testing.T) {
 		})
 	}
 }
+
+// write compressor: 'AATTAAAARYYY' -> '2A2T4AR3Y'
+func Test_StringCompressorRec(t *testing.T) {
+	var ts = []struct {
+		input    string
+		expected string
+	}{{"AATTAAAARYYY", "2A2T4AR3Y"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := stringCompressorRec(ts[i].input)
+			assert.Equal(t, ts[i].expected, result)
+
+		})
+	}
+}
+
+func Test_StringCompressorIter(t *testing.T) {
+	var ts = []struct {
+		input    string
+		expected string
+	}{{"AATTAAAARYYY", "2A2T4AR3Y"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := stringCompressorIter(ts[i].input)
+			assert.Equal(t, ts[i].expected, result)
+
+		})
+	}
+}
+
+// Reverse individual words
+// Given a string with "words" (something which is divided by one or more whitespaces).
+// Return a string with each "word" reversed  retaining the same amount of whitespaces between them.
+// Example:
+// input:  "abc def   lll"
+// output: "cba fed   lll"
+
+func Test_ReverseStrWithSpaces(t *testing.T) {
+	var ts = []struct {
+		input    string
+		expected string
+	}{{"abc def   lll", "cba fed   lll"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := reverseStrWithSpaces(ts[i].input)
+			assert.Equal(t, ts[i].expected, result)
+
+		})
+	}
+}
