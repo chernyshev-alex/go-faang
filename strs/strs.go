@@ -255,13 +255,10 @@ func stringCompressorRec(s string) string {
 
 func stringCompressorRec__(s string, l, r int, result *string) {
 	fmtPart := func() string {
-		var w string
 		if r-l == 1 {
-			w = fmt.Sprintf("%c", s[l])
-		} else {
-			w = fmt.Sprintf("%d%c", r-l, s[l])
+			return fmt.Sprintf("%c", s[l])
 		}
-		return w
+		return fmt.Sprintf("%d%c", r-l, s[l])
 	}
 
 	if r >= len(s) {
@@ -282,32 +279,31 @@ func stringCompressorRec__(s string, l, r int, result *string) {
 }
 
 func stringCompressorIter(s string) string {
-	result := ""
 	if len(s) == 0 {
-		return result
+		return ""
 	}
 	if len(s) == 1 {
 		return s
 	}
 
-	prev_seen, last_seen_cnt := s[0], 1
-	for i := 1; i < len(s); i++ {
-		var v byte = s[i]
-		if prev_seen != v {
-			var w string = string(prev_seen)
-			if last_seen_cnt > 1 {
-				w = fmt.Sprintf("%d%c", last_seen_cnt, prev_seen)
-			}
-			result += w
-			last_seen_cnt = 0
+	fmtPart := func(l, r int) string {
+		if r-l == 1 {
+			return fmt.Sprintf("%c", s[l])
 		}
-		prev_seen = byte(v)
-		last_seen_cnt += 1
+		return fmt.Sprintf("%d%c", r-l, s[l])
 	}
-	if last_seen_cnt > 1 {
-		var w = fmt.Sprintf("%d%c", last_seen_cnt, prev_seen)
-		result += w
+
+	result := ""
+	l, r := 0, 0
+	for r < len(s) {
+		if s[l] == s[r] {
+			r++
+		} else {
+			result += fmtPart(l, r)
+			l = r
+		}
 	}
+	result += fmtPart(l, r)
 	return result
 }
 
