@@ -127,9 +127,30 @@ func lengthOfLongestSubstring(s string) int {
 func longestPalindromicSubstring(s string) string {
 	maxLen, ps := 0, ""
 	subsFn := func(l, r int) {
-		for ln := len(s); l >= 0 && r < ln && s[l] == s[r]; {
+		for ln := len(s); l >= 0 && r < ln && s[l] == s[r]; l, r = l-1, r+1 {
 			fmt.Printf("1) l=%d r=%d  sl=%c sr=%c\n", l, r, s[l], s[r])
-			l, r = l-1, r+1
+			//	l, r = l-1, r+1
+		}
+
+		if r-l-1 >= maxLen {
+			ps = s[l+1 : r]
+			maxLen = r - l - 1
+			fmt.Printf("\t2) ps=%s  \n", ps)
+		}
+	}
+
+	for i := range s {
+		subsFn(i, i)   // check for odd length
+		subsFn(i, i+1) // check for event length
+	}
+	return ps
+}
+
+func longestPalindromicSubstring__(s string) string {
+	maxLen, ps := 0, ""
+	subsFn := func(l, r int) {
+		for ln := len(s); l >= 0 && r < ln && s[l] == s[r]; l, r = l-1, r+1 {
+			//  <-|->
 		}
 
 		if r-l-1 >= maxLen {
@@ -331,4 +352,14 @@ func reverseStrWithSpaces(s string) string {
 	}
 
 	return string(result)
+}
+
+func lexicographicalMaxString(s string) string {
+	result := ""
+	for i := range s {
+		if s[i:] > result {
+			result = s[i:]
+		}
+	}
+	return result
 }
