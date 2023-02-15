@@ -72,3 +72,19 @@ func trap(height []int) int {
 	}
 	return result
 }
+
+func fibo_gen(n int) []int64 {
+	var result = make([]int64, 0)
+
+	var fiboFun func(int, int64, int64)
+
+	fiboFun = func(n int, a, b int64) {
+		result = append(result, a+b)
+		if n > 0 {
+			fiboFun(n-1, b, a+b)
+		}
+	}
+	fiboFun(n, 0, 1)
+	return result
+
+}

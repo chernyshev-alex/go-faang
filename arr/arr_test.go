@@ -3,6 +3,8 @@ package arr
 import (
 	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_twoSum(t *testing.T) {
@@ -53,4 +55,10 @@ func Test_trap(t *testing.T) {
 			}
 		})
 	}
+}
+
+func Test_fibo(t *testing.T) {
+	t.Run("fibo", func(t *testing.T) {
+		assert.Equal(t, []int64{1, 2, 3, 5, 8, 13, 21}, fibo_gen(6))
+	})
 }
