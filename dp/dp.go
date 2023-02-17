@@ -1,6 +1,9 @@
 package dp
 
 import (
+	"fmt"
+	"strings"
+
 	"golang.org/x/exp/constraints"
 )
 
@@ -214,6 +217,67 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 		}
 	}
 	return int(dp[len(text1)][len(text2)])
+}
+
+//"abcdxyz", "xyzabcd", "abcd"
+func longestCommonSubStr(s1, s2 string) string {
+	dp := make([][]int, len(s1)+1)
+	for i := range dp {
+		dp[i] = make([]int, len(s2)+1)
+	}
+	lcsLen, lcsEnd := 0, 0
+	for i1 := 1; i1 <= len(s1); i1++ {
+		for i2 := 1; i2 <= len(s2); i2++ {
+			if s1[i1-1] == s2[i2-1] {
+				dp[i1][i2] = dp[i1-1][i2-1] + 1
+				if dp[i1][i2] > lcsLen {
+					lcsLen = dp[i1][i2]
+					lcsEnd = i1
+				}
+			}
+		}
+	}
+	return s1[lcsEnd-lcsLen : lcsEnd]
+
+}
+
+func longestCommonSubInArray(ss []string) string {
+	s := ss[0]
+	// generate all substrings for ss[0]
+	result := ""
+	for i, _ := range s {
+		for j := i + 1; j <= len(s); j++ {
+			//check if substring is common to all words
+			m := 1
+			for ; m < len(ss); m++ {
+				if !strings.Contains(ss[m], s[i:j]) {
+					break
+				}
+			}
+			// all strings are contains substring
+			//fmt.Println(s[i:j])
+			if m == len(ss) && len(s[i:j]) > len(result) {
+				// found  longer
+				result = s[i:j]
+			}
+			fmt.Println(result)
+		}
+	}
+	return result
+}
+
+// {"AGGTAB", "GXTXAYB", "GTAB"}}
+func longestCommonSubsequenceStr(s1 string, s2 string) string {
+	result := ""
+	for i := 0; i < len(s2); i++ {
+		for j := 0; j < len(s1); j++ {
+			if s2[i] == s1[j] {
+				result += string(s2[i])
+				break
+			}
+		}
+	}
+	return result
 }
 
 func getMaxGold(gold [][]int, n, m int) int {

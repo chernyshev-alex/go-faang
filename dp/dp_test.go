@@ -150,6 +150,49 @@ func Test_LongestCommonSubsequence(t *testing.T) {
 	}
 }
 
+func Test_LongestCommonSubStr(t *testing.T) {
+	var ts = []struct {
+		s1, s2 string
+		exp    string
+	}{{"cab", "abc", "ab"}, {"abcdxyz", "xyzabcd", "abcd"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := longestCommonSubStr(ts[i].s1, ts[i].s2)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+func Test_LongestCommonSubInArray(t *testing.T) {
+	var ts = []struct {
+		s   []string
+		exp string
+	}{{[]string{"grace", "graceful", "disgraceful", "gracefully"}, "grace"},
+		{[]string{"sadness", "sad", "sadly"}, "sad"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := longestCommonSubInArray(ts[i].s)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
+func Test_LongestCommonSubsequenceStr(t *testing.T) {
+	var ts = []struct {
+		s1, s2 string
+		exp    string
+	}{{"ABCDGH", "AEDFHR", "ADH"}, {"AGGTAB", "GXTXAYB", "GTAB"}, {"AAAA", "AAA", "AAA"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			result := longestCommonSubsequenceStr(ts[i].s1, ts[i].s2)
+			assert.Equal(t, ts[i].exp, result)
+		})
+	}
+}
+
 // Gold Mine Problem
 //
 // Given a gold mine of n*m dimensions. Each field in this mine contains a positive integer which is the amount
