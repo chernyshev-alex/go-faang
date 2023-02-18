@@ -1,7 +1,6 @@
 package dp
 
 import (
-	"fmt"
 	"strings"
 
 	"golang.org/x/exp/constraints"
@@ -245,7 +244,7 @@ func longestCommonSubInArray(ss []string) string {
 	s := ss[0]
 	// generate all substrings for ss[0]
 	result := ""
-	for i, _ := range s {
+	for i := range s {
 		for j := i + 1; j <= len(s); j++ {
 			//check if substring is common to all words
 			m := 1
@@ -255,12 +254,9 @@ func longestCommonSubInArray(ss []string) string {
 				}
 			}
 			// all strings are contains substring
-			//fmt.Println(s[i:j])
 			if m == len(ss) && len(s[i:j]) > len(result) {
-				// found  longer
-				result = s[i:j]
+				result = s[i:j] // found  longer
 			}
-			fmt.Println(result)
 		}
 	}
 	return result
