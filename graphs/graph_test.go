@@ -172,3 +172,42 @@ func Test_NetworkDelayTimeBellmanFord(t *testing.T) {
 		})
 	}
 }
+
+func Test_DijkstraPrismShortestPath(t *testing.T) {
+
+	var ts = []struct {
+		src   int
+		graph [][]int
+		exp   []vdist
+	}{
+		{0, [][]int{
+			{0, 4, 0, 0, 0, 0, 0, 8, 0},
+			{4, 0, 8, 0, 0, 0, 0, 11, 0},
+			{0, 8, 0, 7, 0, 4, 0, 0, 2},
+			{0, 0, 7, 0, 9, 14, 0, 0, 0},
+			{0, 0, 0, 9, 0, 10, 0, 0, 0},
+			{0, 0, 4, 14, 10, 0, 2, 0, 0},
+			{0, 0, 0, 0, 0, 2, 0, 1, 6},
+			{8, 11, 0, 0, 0, 0, 1, 0, 7},
+			{0, 0, 2, 0, 0, 0, 6, 7, 0},
+		},
+			[]vdist{
+				{v: 0, dist: 0},
+				{v: 1, dist: 4},
+				{v: 2, dist: 12},
+				{v: 3, dist: 19},
+				{v: 4, dist: 21},
+				{v: 5, dist: 11},
+				{v: 6, dist: 9},
+				{v: 7, dist: 8},
+				{v: 8, dist: 14},
+			},
+		},
+	}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].exp, findShortestPathDijkstraPrism(ts[i].src, ts[i].graph))
+		})
+	}
+}
