@@ -172,3 +172,16 @@ func Test_Search_matrix(t *testing.T) {
 		})
 	}
 }
+
+func Test_NumberOfPaths(t *testing.T) {
+	var ts = []struct {
+		m, n      int
+		num_paths int
+	}{{3, 3, 6}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].num_paths, numberOfPaths(ts[i].m, ts[i].n))
+		})
+	}
+}

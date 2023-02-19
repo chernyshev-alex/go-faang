@@ -212,3 +212,48 @@ func networkDelayTime_BellmanFord(times [][]int, n int, k int) int {
 	}
 	return max_element
 }
+
+func findShortestPathDijkstraPrism(src int, g [][]int) []vdist {
+	numVertices := len(g)
+
+	dist := make([]int, numVertices) // distances from src to i-th vertise
+	visited := make([]bool, numVertices)
+
+	for v := 0; v < numVertices; v++ { // init
+		dist[v] = math.MaxInt
+		visited[v] = false
+	}
+
+	dist[src] = 0 // start from the source
+	for c := 0; c < numVertices-1; c++ {
+
+		u := -1
+		minDist := math.MaxInt
+		// get min vertex index
+		for v := 0; v < numVertices; v++ {
+			if visited[v] == false && dist[v] <= minDist {
+				minDist = dist[v]
+				u = v
+			}
+		}
+
+		visited[u] = true
+
+		// Update dist value of the adjacent vertices of the picked vertex.
+		for v := 0; v < numVertices; v++ {
+			if visited[v] == false && g[u][v] != 0 &&
+				dist[u] != math.MaxInt &&
+				dist[u]+g[u][v] < dist[v] {
+				dist[v] = dist[u] + g[u][v]
+			}
+		}
+	}
+
+	result := make([]vdist, 0)
+	for v := 0; v < numVertices; v++ {
+		result = append(result, vdist{v: v, dist: dist[v]})
+	}
+
+	return result
+
+}

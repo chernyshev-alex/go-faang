@@ -274,3 +274,10 @@ func searchMatrix(matrix [][]int, target int) bool {
 	}
 	return false
 }
+
+func numberOfPaths(m, n int) int {
+	if m == 1 || n == 1 {
+		return 1
+	}
+	return numberOfPaths(m-1, n) + numberOfPaths(m, n-1)
+}
