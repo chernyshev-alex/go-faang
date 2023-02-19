@@ -213,6 +213,8 @@ func networkDelayTime_BellmanFord(times [][]int, n int, k int) int {
 	return max_element
 }
 
+type vdist struct{ v, dist int }
+
 func findShortestPathDijkstraPrism(src int, g [][]int) []vdist {
 	numVertices := len(g)
 
