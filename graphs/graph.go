@@ -1,6 +1,7 @@
 package graphs
 
 import (
+	"errors"
 	"math"
 
 	"github.com/go-mci-faans/arr"
@@ -181,6 +182,37 @@ func networkDelayTime_Dejkstra(times [][]int, n int, k int) int {
 		return -1
 	}
 	return max_element
+}
+
+type Edge struct {
+	from, to, weight int
+}
+
+func shortestPathBellmanFordNegativeWeigths(v, e, src int, edges []Edge) (dist []int, err error) {
+	dist = make([]int, v)
+	for i := 0; i < len(dist); i++ {
+		dist[i] = math.MaxInt
+	}
+
+	dist[src] = 0
+	// relax all edges
+	for _v := 0; _v < len(dist); _v++ {
+		for _e := 0; _e < len(edges); _e++ {
+			from, to, w := edges[_e].from, edges[_e].to, edges[_e].weight
+			if dist[from] != math.MaxInt && dist[from]+w < dist[to] {
+				dist[to] = dist[from] + w
+			}
+		}
+	}
+	// check for negative-weight cycles
+	for _e := 0; _e < e; _e++ {
+		from, to, w := edges[_e].from, edges[_e].to, edges[_e].weight
+		if dist[from] != math.MaxInt && dist[from]+w < dist[to] {
+			err = errors.New("found negative weight cycle")
+			return
+		}
+	}
+	return
 }
 
 // Bellman Ford for Negative Weights

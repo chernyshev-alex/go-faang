@@ -91,7 +91,6 @@ func Test_TraversalDfsMatrix(t *testing.T) {
 
 // Time Needed to Inform All Employees
 // https://leetcode.com/problems/time-needed-to-inform-all-employees/
-//
 func Test_NumOfMinutes(t *testing.T) {
 	var ts = []struct {
 		n, headID           int
@@ -117,7 +116,6 @@ func Test_NumOfMinutes(t *testing.T) {
 //
 // For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
 // Return true if you can finish all courses. Otherwise, return false.
-//
 func Test_CourseScheduleCanFinish(t *testing.T) {
 	var ts = []struct {
 		input      [][]int
@@ -140,7 +138,6 @@ func Test_CourseScheduleCanFinish(t *testing.T) {
 // vi is the target node, and wi is the time it takes for a signal to travel from source to target.
 // We will send a signal from a given node k. Return the minimum time it takes for all the n nodes to receive the signal.
 // If it is impossible for all the n nodes to receive the signal, return -1.
-//
 func Test_NetworkDelayTimeDejkstra(t *testing.T) {
 	var ts = []struct {
 		input [][]int
@@ -158,6 +155,22 @@ func Test_NetworkDelayTimeDejkstra(t *testing.T) {
 	}
 }
 
+// finding the shortest distance to all vertices from the source using the Bellman-Ford algorithm
+func Test_ShortestPathBellmanFordNegativeWeigths(t *testing.T) {
+	var ts = []struct {
+		v, e, src int
+		edges     []Edge
+		dist      []int
+	}{{5, 8, 0, []Edge{{0, 1, -1}, {0, 2, 4}, {1, 2, 3}, {1, 3, 2}, {1, 4, 2}, {3, 2, 5}, {3, 1, 1}, {4, 3, -3}},
+		[]int{0, -1, 2, -2, 1}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			dist, _ := shortestPathBellmanFordNegativeWeigths(ts[i].v, ts[i].e, ts[i].src, ts[i].edges)
+			assert.Equal(t, ts[i].dist, dist)
+		})
+	}
+}
 func Test_NetworkDelayTimeBellmanFord(t *testing.T) {
 	var ts = []struct {
 		input [][]int
