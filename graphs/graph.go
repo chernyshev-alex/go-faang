@@ -265,7 +265,7 @@ func findShortestPathDijkstraPrism(src int, g [][]int) []vdist {
 		minDist := math.MaxInt
 		// get min vertex index
 		for v := 0; v < numVertices; v++ {
-			if visited[v] == false && dist[v] <= minDist {
+			if !visited[v] && dist[v] <= minDist {
 				minDist = dist[v]
 				u = v
 			}
@@ -275,7 +275,7 @@ func findShortestPathDijkstraPrism(src int, g [][]int) []vdist {
 
 		// Update dist value of the adjacent vertices of the picked vertex.
 		for v := 0; v < numVertices; v++ {
-			if visited[v] == false && g[u][v] != 0 &&
+			if !visited[v] && g[u][v] != 0 &&
 				dist[u] != math.MaxInt &&
 				dist[u]+g[u][v] < dist[v] {
 				dist[v] = dist[u] + g[u][v]
