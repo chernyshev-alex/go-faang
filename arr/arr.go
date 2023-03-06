@@ -1,5 +1,9 @@
 package arr
 
+import (
+	"sort"
+)
+
 // utils
 
 func min(a, b int) int {
@@ -87,4 +91,37 @@ func fibo_gen(n int) []int64 {
 	fiboFun(n, 0, 1)
 	return result
 
+}
+
+func binarySearch(ls []int, n int) int {
+	sort.Ints(ls) // att ! input slice will be reordered
+	for pos, l, r := 0, 0, len(ls); l < r; pos = (l + r) / 2 {
+		switch elem := ls[pos]; {
+		case elem == n:
+			return pos
+		case elem < n:
+			l = pos + 1
+		default:
+			r = pos - 1
+		}
+	}
+	return -1
+}
+
+func binarySearch2(ls []int, n int) int {
+	sort.Ints(ls)
+	low, high := 0, len(ls)
+	for low < high {
+		mid := (low + high) / 2
+		element := ls[mid]
+		if element == n {
+			return mid
+		}
+		if element < n {
+			low = mid + 1
+		} else {
+			high = mid - 1
+		}
+	}
+	return -1
 }
