@@ -95,12 +95,10 @@ func Test_IsPalindrome(t *testing.T) {
 	}
 }
 
-//
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/
 //
 // Given a string s, find the length of the longest substring without repeating characters.
 // Sliding window
-//
 func Test_LengthOfLongestSubstring(t *testing.T) {
 	var ts = []struct {
 		input    string
@@ -286,6 +284,33 @@ func Test_lexicographicalMaxStringt(t *testing.T) {
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
 			assert.Equal(t, ts[i].expected, lexicographicalMaxString(ts[i].input))
+
+		})
+	}
+}
+
+func Test_LongestCommonPrefixHorizontal(t *testing.T) {
+	var ts = []struct {
+		input    []string
+		expected string
+	}{{[]string{"flower", "flow", "flight"}, "fl"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, longestCommonPrefixHorz(ts[i].input))
+
+		})
+	}
+}
+func Test_LongestCommonPrefixVertical(t *testing.T) {
+	var ts = []struct {
+		input    []string
+		expected string
+	}{{[]string{"flower", "flow", "flight"}, "fl"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, longestCommonPrefixVert(ts[i].input))
 
 		})
 	}
