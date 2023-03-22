@@ -364,6 +364,27 @@ func lexicographicalMaxString(s string) string {
 	return result
 }
 
+// ------
+func longestCommonPrefixHorzRec(ls []string) string {
+	return longestCommonPrefixHorzRec__(ls[0], 1, ls)
+
+}
+
+func longestCommonPrefixHorzRec__(prefix string, idx int, ls []string) string {
+	if len(ls[idx]) == 0 || len(prefix) == 0 {
+		return ""
+	}
+	prefix = prefix[:min(len(prefix), len(ls[idx]))]
+	for k := 0; k < len(ls[idx]) && k < len(prefix); k++ {
+		if ls[idx][k] != prefix[k] {
+			return prefix[:k]
+		}
+	}
+	return longestCommonPrefixHorzRec__(prefix, idx+1, ls)
+}
+
+// ----
+
 func longestCommonPrefixHorz(ls []string) string {
 	if len(ls) == 0 {
 		return ""
@@ -375,17 +396,19 @@ func longestCommonPrefixHorz(ls []string) string {
 			return ""
 		}
 
-		prefix = prefix[0:min(len(prefix), len(s))]
+		prefix = prefix[:min(len(prefix), len(s))]
 
 		for k := 0; k < len(s) && k < len(prefix); k++ {
 			if s[k] != prefix[k] {
-				prefix = prefix[0:k]
+				prefix = prefix[:k]
 				break
 			}
 		}
 	}
 	return prefix
 }
+
+// ------
 
 func longestCommonPrefixVert(ls []string) string {
 	if len(ls) == 0 {
@@ -402,6 +425,8 @@ func longestCommonPrefixVert(ls []string) string {
 	return ""
 }
 
+// -----
+
 func longestCommonPrefixVertRec(ls []string) string {
 	return longestCommonPrefixVertRecCmp(0, ls)
 }
@@ -414,6 +439,8 @@ func longestCommonPrefixVertRecCmp(idx int, ls []string) string {
 	}
 	return longestCommonPrefixVertRecCmp(idx+1, ls)
 }
+
+//-----
 
 func min(a, b int) int {
 	if a < b {

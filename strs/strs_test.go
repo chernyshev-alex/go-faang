@@ -302,6 +302,21 @@ func Test_LongestCommonPrefixHorizontal(t *testing.T) {
 		})
 	}
 }
+
+func Test_LongestCommonPrefixHorizontalRec(t *testing.T) {
+	var ts = []struct {
+		input    []string
+		expected string
+	}{{[]string{"flower", "flow", "flight"}, "fl"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, longestCommonPrefixHorzRec(ts[i].input))
+
+		})
+	}
+}
+
 func Test_LongestCommonPrefixVertical(t *testing.T) {
 	var ts = []struct {
 		input    []string
