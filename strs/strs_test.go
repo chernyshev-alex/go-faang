@@ -315,3 +315,17 @@ func Test_LongestCommonPrefixVertical(t *testing.T) {
 		})
 	}
 }
+
+func Test_LongestCommonPrefixVerticalRec(t *testing.T) {
+	var ts = []struct {
+		input    []string
+		expected string
+	}{{[]string{"flower", "flow", "flight"}, "fl"}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, longestCommonPrefixVertRec(ts[i].input))
+
+		})
+	}
+}
