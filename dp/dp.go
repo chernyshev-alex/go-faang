@@ -20,9 +20,7 @@ func max[T constraints.Ordered](a, b T) T {
 	return b
 }
 
-//
 // (O)= NxN
-//
 func minCostClimbingStairsTopBottom(cost []int) int {
 	type TMinCostFn func(n int) int
 	var minCost TMinCostFn
@@ -218,7 +216,7 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 	return int(dp[len(text1)][len(text2)])
 }
 
-//"abcdxyz", "xyzabcd", "abcd"
+// "abcdxyz", "xyzabcd", "abcd"
 func longestCommonSubStr(s1, s2 string) string {
 	dp := make([][]int, len(s1)+1)
 	for i := range dp {

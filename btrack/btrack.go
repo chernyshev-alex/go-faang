@@ -170,9 +170,7 @@ func solveNQueens(n int) [][]string {
 	return result
 }
 
-//
 // String all permutations
-//
 func do_permute(s []rune, l, r int, result *[]string) {
 	if l == r {
 		*result = append(*result, string(s))

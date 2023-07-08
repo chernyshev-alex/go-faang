@@ -344,3 +344,52 @@ func Test_LongestCommonPrefixVerticalRec(t *testing.T) {
 		})
 	}
 }
+func Test_SplitWord(t *testing.T) {
+	var ts = []struct {
+		input    string
+		expected []string
+	}{{"goooooogle", []string{"g", "oooooo", "gl", "e"}}}
+
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, splitWord(ts[i].input))
+
+		})
+	}
+}
+
+// Given a string S, we can split S into 2 strings: S1 and S2.
+// Return the number of ways S can be split such that the number of unique characters
+// between S1 and S2 are the same.
+//
+// https://leetcode.com/problems/number-of-good-ways-to-split-a-string/
+func Test_SplitWord2(t *testing.T) {
+	var ts = []struct {
+		input    string
+		expected int
+	}{{"aaaa", 3}, {"bac", 0}, {"ababa", 2}}
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, splitWord2(ts[i].input))
+
+		})
+	}
+}
+
+// A split is called good if you can split s into two non-empty strings sleft and sright
+// where their concatenation is equal to s (i.e., sleft + sright = s) and the number of
+// distinct letters in sleft and sright is the same.
+//
+// https://leetcode.com/problems/number-of-good-ways-to-split-a-string/
+func Test_SplitWord3(t *testing.T) {
+	var ts = []struct {
+		input    string
+		expected int
+	}{{"aacaba", 2}, {"abcd", 1}}
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, splitWord3(ts[i].input))
+
+		})
+	}
+}

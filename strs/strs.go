@@ -440,7 +440,62 @@ func longestCommonPrefixVertRecCmp(idx int, ls []string) string {
 	return longestCommonPrefixVertRecCmp(idx+1, ls)
 }
 
-//-----
+func splitWord(s string) []string {
+	result := make([]string, 0)
+	last := s[0]
+	result = append(result, string(last))
+	for i := 1; i < len(s); i++ {
+		if s[i] != last {
+			result = append(result, string(s[i]))
+		} else {
+			result[len(result)-1] = result[len(result)-1] + string(s[i])
+		}
+		last = s[i]
+	}
+	return result
+}
+
+func splitWord2(s string) (result int) {
+	for i := 0; i <= len(s); i++ {
+		if len(uniqstr(s[:i])) == len(uniqstr(s[i:])) {
+			result += 1
+		}
+	}
+	return
+}
+
+func splitWord3(s string) (result int) {
+	for i := 0; i <= len(s); i++ {
+		if distinct(s[:i]) == distinct(s[i:]) {
+			result += 1
+		}
+	}
+	return
+}
+
+// -----
+func distinct(s string) (result int) {
+	m := make(map[byte]byte)
+	for _, v := range s {
+		if _, ok := m[byte(v)]; !ok {
+			result += 1
+		}
+		m[byte(v)] += 1
+	}
+	return
+}
+
+func uniqstr(s string) string {
+	ci, b, seen := 0, []byte(s), make(map[byte]byte)
+	for _, c := range b {
+		if _, ok := seen[c]; !ok {
+			b[ci] = c
+			ci++
+			seen[c] = 1
+		}
+	}
+	return string(b[:ci])
+}
 
 func min(a, b int) int {
 	if a < b {

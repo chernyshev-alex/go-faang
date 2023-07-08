@@ -14,7 +14,6 @@ import (
 // Each of the digits 1-9 must occur exactly once in each column.
 // Each of the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.
 // The '.' character indicates empty cells.
-//
 func Test_Sudoku(t *testing.T) {
 	var ts = []struct {
 		input [][]byte
@@ -69,7 +68,6 @@ func Test_PalindromPartition(t *testing.T) {
 	}
 }
 
-//
 // https://leetcode.com/problems/n-queens/
 //
 // The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens
@@ -78,7 +76,6 @@ func Test_PalindromPartition(t *testing.T) {
 // You may return the answer in any order.
 // Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.'
 // both indicate a queen and an empty space, respectively.
-//
 func Test_SolveNQueens(t *testing.T) {
 	var ts = []struct {
 		input int
@@ -95,9 +92,7 @@ func Test_SolveNQueens(t *testing.T) {
 	}
 }
 
-//
 // Print all permutations of a given string
-//
 func Test_Permutation(t *testing.T) {
 	var ts = []struct {
 		input string

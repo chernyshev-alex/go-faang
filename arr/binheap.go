@@ -3,7 +3,6 @@ package arr
 import "math"
 
 // --- binary min heap impl ---
-//
 type FnComparator func(a, b interface{}) bool
 
 type BinaryHeap struct {

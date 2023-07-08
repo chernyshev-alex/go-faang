@@ -66,7 +66,6 @@ func FindKthLargestQselect(nums []int, k int) int {
 
 // ---  Search range
 // https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
-//
 func SearchRange(nums []int, target int) []int {
 	fbin_search := func(v []int, l, r, target int) int {
 		for mid := (r + l) / 2; l <= r; mid = (r + l) / 2 {

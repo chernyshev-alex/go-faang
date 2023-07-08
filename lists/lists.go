@@ -33,7 +33,6 @@ func reverseList(head *ListNode) *ListNode {
 // Given the head of a singly linked list and two integers left and right
 // where left <= right, reverse the nodes of the list from position left to position right,
 // and return the reversed list.
-//
 func reverseBetween(head *ListNode, left int, right int) *ListNode {
 	// 2.134.5 -> 2.314.5  -> 2.431.5
 	pos := 1
@@ -60,7 +59,6 @@ func reverseBetween(head *ListNode, left int, right int) *ListNode {
 
 // https://leetcode.com/problems/palindrome-linked-list/
 // Given the head of a singly linked list, return true if it is a palindrome.
-//
 func isPalindrome(head *ListNode) bool {
 	sz := 0
 	for n := head; n != nil; n, sz = n.Next, sz+1 {
@@ -93,9 +91,8 @@ func isPalindrome(head *ListNode) bool {
 }
 
 // https://leetcode.com/problems/linked-list-cycle-ii/
-//Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null
-//Floyd's tortoise & hare algorithm
-//
+// Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null
+// Floyd's tortoise & hare algorithm
 func detectCycle(head *ListNode) *ListNode {
 	// find cycle
 	t, h := head, head

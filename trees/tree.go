@@ -34,7 +34,6 @@ func maxDepth(root *TreeNode) int {
 // https://leetcode.com/problems/binary-tree-level-order-traversal/
 // Given the root of a binary tree, return the level order traversal of its nodes' values.
 // (i.e., from left to right, level by level).
-//
 func levelOrder(root *TreeNode) [][]int {
 	result := make([][]int, 0)
 	if root == nil {
@@ -62,7 +61,6 @@ func levelOrder(root *TreeNode) [][]int {
 // https://leetcode.com/problems/binary-tree-right-side-view/
 // Given the root of a binary tree, imagine yourself standing on the right side of it,
 // return the values of the nodes you can see ordered from top to bottom.
-//
 func rightSideViewBfs(root *TreeNode) []int {
 	result, q := make([]int, 0), make([]*TreeNode, 0)
 	if root != nil {
@@ -137,7 +135,6 @@ func countNodes2(root *TreeNode) int {
 }
 
 // -- O(n) ---------------
-//
 func tree_height(n *TreeNode) (height int) {
 	for ; n.Left != nil; n = n.Left {
 		height += 1
@@ -186,7 +183,6 @@ func countNodesOpt(root *TreeNode) int {
 // The left subtree of a node contains only nodes with keys less than the node's key.
 // The right subtree of a node contains only nodes with keys greater than the node's key.
 // Both the left and right subtrees must also be binary search trees.
-//
 func dfs(n *TreeNode, min int, max int) bool {
 	if n == nil {
 		return true

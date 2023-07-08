@@ -52,7 +52,6 @@ func Test_DijkstraShortestPath(t *testing.T) {
 // https://leetcode.com/problems/number-of-islands/
 // Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water),
 // return the number of islands
-//
 func Test_NumIslands(t *testing.T) {
 	var ts = []struct {
 		input [][]byte
@@ -79,7 +78,7 @@ func Test_NumIslands(t *testing.T) {
 // Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
 // Return the minimum number of minutes that must elapse until no cell has a fresh orange.
 // If this is impossible, return -1.
-////
+// //
 func Test_OrangesRotting(t *testing.T) {
 	var ts = []struct {
 		input [][]int
@@ -99,7 +98,6 @@ func Test_OrangesRotting(t *testing.T) {
 // Given 2d array containing  -1 - walls, 0-gates, INF - empty room.
 // Fill each empty room with a number of steps to the nearest gate.
 // Leave INF if it is impossible to reach a gate.
-//
 func Test_WallsAndGates(t *testing.T) {
 	const INF = math.MaxInt16
 	var ts = []struct {
@@ -117,7 +115,9 @@ func Test_WallsAndGates(t *testing.T) {
 }
 
 // https://leetcode.com/problems/transpose-matrix/
-// 	Given a 2D integer array matrix, return the transpose of matrix.
+//
+//	Given a 2D integer array matrix, return the transpose of matrix.
+//
 // The transpose of a matrix is the matrix flipped over its main diagonal,
 // switching the matrix's row and column indices.
 func Test_TransposeMatrix(t *testing.T) {
@@ -137,7 +137,6 @@ func Test_TransposeMatrix(t *testing.T) {
 // https://leetcode.com/problems/set-matrix-zeroes/
 // Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
 // You must do it in place.
-//
 func Test_SetMatrixZeroes(t *testing.T) {
 	var ts = []struct {
 		input, exp [][]int
@@ -157,7 +156,6 @@ func Test_SetMatrixZeroes(t *testing.T) {
 // This matrix has the following properties:
 // Integers in each row are sorted from left to right.
 // The first integer of each row is greater than the last integer of the previous row.
-//
 func Test_Search_matrix(t *testing.T) {
 	var ts = []struct {
 		input  [][]int

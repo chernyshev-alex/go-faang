@@ -31,7 +31,6 @@ func isValid(s string) bool {
 
 // https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
 // Minimum Remove to Make Valid Parentheses
-//
 func minRemoveToMakeValid(s string) string {
 	buf := append([]byte(nil), s...)
 	stack := make([]int, 0)
@@ -61,8 +60,8 @@ func minRemoveToMakeValid(s string) string {
 }
 
 // https://leetcode.com/problems/implement-queue-using-stacks/
-//  Implement Queue using Stacks
 //
+//	Implement Queue using Stacks
 type MyQueue struct {
 	stack1, stack2 []int
 }

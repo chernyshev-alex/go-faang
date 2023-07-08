@@ -13,7 +13,6 @@ import (
 // Once you pay the cost, you can either climb one or two steps.
 // You can either start from the step with index 0, or the step with index 1.
 // Return the minimum cost to reach the top of the floor.
-//
 func Test_MinCostClimbingStairsTopBottom(t *testing.T) {
 	var ts = []struct {
 		cost []int
