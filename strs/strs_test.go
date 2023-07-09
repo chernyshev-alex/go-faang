@@ -191,7 +191,7 @@ func Test_AllSubsets(t *testing.T) {
 	}
 }
 
-func Test_PermutationsRec(t *testing.T) {
+func Test_GetAllPermutations(t *testing.T) {
 	var ts = []struct {
 		input    string
 		expected []string
@@ -199,31 +199,15 @@ func Test_PermutationsRec(t *testing.T) {
 
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
-			output := make([]string, 0)
-			allPermutationsRec(string(ts[i].input), "", &output)
+			// output := make([]string, 0)
+			output := getAllPermutations(string(ts[i].input))
 			assert.Equal(t, ts[i].expected, output)
-
-		})
-	}
-}
-
-func Test_PermutationsIter(t *testing.T) {
-	var ts = []struct {
-		input    string
-		expected []string
-	}{{"abc", []string{"abc", "acb", "bac", "bca", "cab", "cba"}}}
-
-	for i := range ts {
-		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
-			result := allPermutationsIter([]byte(ts[i].input))
-			assert.Equal(t, ts[i].expected, result)
-
 		})
 	}
 }
 
 // write compressor: 'AATTAAAARYYY' -> '2A2T4AR3Y'
-func Test_StringCompressorRec(t *testing.T) {
+func Test_CompressStr(t *testing.T) {
 	var ts = []struct {
 		input    string
 		expected string
@@ -231,24 +215,8 @@ func Test_StringCompressorRec(t *testing.T) {
 
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
-			result := stringCompressorRec(ts[i].input)
+			result := compressStr(ts[i].input)
 			assert.Equal(t, ts[i].expected, result)
-
-		})
-	}
-}
-
-func Test_StringCompressorIter(t *testing.T) {
-	var ts = []struct {
-		input    string
-		expected string
-	}{{"AATTAAAARYYY", "2A2T4AR3Y"}}
-
-	for i := range ts {
-		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
-			result := stringCompressorIter(ts[i].input)
-			assert.Equal(t, ts[i].expected, result)
-
 		})
 	}
 }

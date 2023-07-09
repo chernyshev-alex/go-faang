@@ -5,6 +5,7 @@ import (
 	"math"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"unicode"
 )
@@ -231,101 +232,35 @@ func allSubsets(chars []byte) [][]byte {
 	return result
 }
 
-func allPermutationsRec(s string, prefix string, output *[]string) {
-	if len(s) == 0 {
-		*output = append(*output, prefix)
+func getAllPermutations(s string) []string {
+	if len(s) == 1 {
+		return []string{s}
 	}
-	for i := range s {
-		allPermutationsRec(s[0:i]+s[i+1:], prefix+s[i:i+1], output)
-	}
-}
-
-func allPermutationsIter(s []byte) []string {
-	result, indexes := make([]string, 0), make([]int, len(s))
-	for i := 0; i < len(s); {
-		if indexes[i] < i {
-			if i%2 == 0 {
-				s[0], s[i] = s[i], s[0]
-			} else {
-				s[indexes[i]], s[i] = s[i], s[indexes[i]]
-			}
-			indexes[i]++
-			i = 0
-
-		} else {
-			indexes[i] = 0
-			i++
+	permutations := make([]string, 0)
+	for pos, first_char := range s {
+		for _, sp := range getAllPermutations(s[:pos] + s[pos+1:]) {
+			permutations = append(permutations, string(first_char)+sp)
 		}
-		result = append(result, string(s))
 	}
-	return result
+	return permutations
 }
 
 // "AATTAAAARYYY", "2A2T4AR3Y"
-func stringCompressorRec(s string) string {
-	if len(s) == 0 {
-		return ""
-	}
-	if len(s) == 1 {
-		return s
-	}
-	buf := ""
-	stringCompressorRec__(s, 0, 1, &buf)
-	return buf
-}
-
-func stringCompressorRec__(s string, l, r int, result *string) {
-	fmtPart := func() string {
-		if r-l == 1 {
-			return fmt.Sprintf("%c", s[l])
-		}
-		return fmt.Sprintf("%d%c", r-l, s[l])
-	}
-
-	if r >= len(s) {
-		*result = *result + fmtPart()
-		return
-	}
-
-	if s[l] != s[r] {
-		*result = *result + fmtPart()
-		stringCompressorRec__(s, r, r+1, result)
-		return
-	}
-
-	if s[l] == s[r] {
-		stringCompressorRec__(s, l, r+1, result)
-	}
-
-}
-
-func stringCompressorIter(s string) string {
-	if len(s) == 0 {
-		return ""
-	}
-	if len(s) == 1 {
-		return s
-	}
-
-	fmtPart := func(l, r int) string {
-		if r-l == 1 {
-			return fmt.Sprintf("%c", s[l])
-		}
-		return fmt.Sprintf("%d%c", r-l, s[l])
-	}
-
-	result := ""
-	l, r := 0, 0
-	for r < len(s) {
-		if s[l] == s[r] {
-			r++
+func compressStr(s string) string {
+	result, count := "", 1
+	for i := 1; i < len(s); i++ {
+		if s[i] == s[i-1] {
+			count++
 		} else {
-			result += fmtPart(l, r)
-			l = r
+			if count > 1 {
+				result += strconv.Itoa(count) + string(s[i-1])
+			} else { // handle 1 char only
+				result += string(s[i-1])
+			}
+			count = 1
 		}
 	}
-	result += fmtPart(l, r)
-	return result
+	return result + strconv.Itoa(count) + string(s[len(s)-1])
 }
 
 func reverseStrWithSpaces(s string) string {
