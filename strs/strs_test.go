@@ -95,6 +95,20 @@ func Test_IsPalindrome(t *testing.T) {
 	}
 }
 
+// Given an integer x, return true if x is a palindrome , and false otherwise.
+// Could you solve it without converting the integer to a string
+func Test_IsPalindromeNum(t *testing.T) {
+	var ts = []struct {
+		input    int
+		expected bool
+	}{{121, true}, {-121, false}, {10, false}}
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			assert.Equal(t, ts[i].expected, isPalindromeNum(ts[i].input))
+		})
+	}
+}
+
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/
 //
 // Given a string s, find the length of the longest substring without repeating characters.
@@ -199,7 +213,6 @@ func Test_GetAllPermutations(t *testing.T) {
 
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
-			// output := make([]string, 0)
 			output := getAllPermutations(string(ts[i].input))
 			assert.Equal(t, ts[i].expected, output)
 		})

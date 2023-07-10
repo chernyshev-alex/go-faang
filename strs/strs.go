@@ -89,6 +89,17 @@ func isPalindrome(s string) bool {
 	return true
 }
 
+func isPalindromeNum(n int) bool {
+	if n < 0 || (n > 0 && n%10 == 0) {
+		return false
+	}
+	original, reversed := n, 0
+	for n > 0 {
+		reversed, n = reversed*10+n%10, n/10
+	}
+	return original == reversed
+}
+
 func validPalindrome(s string) bool {
 	isPalindrome := func(b []byte, l, r int) bool {
 		for ; l < r; l, r = l+1, r-1 {
