@@ -10,6 +10,44 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+func FindNodeInTree(t *TreeNode, val int) *TreeNode {
+	if t != nil && val == t.Val {
+		return t
+	}
+	if result := FindNodeInTree(t.Left, val); result != nil {
+		return result
+	}
+	if result := FindNodeInTree(t.Right, val); result != nil {
+		return result
+	}
+	return nil
+}
+
+func CreateTreeFromSlice(vs []int) *TreeNode {
+	if len(vs) == 0 {
+		return nil
+	}
+	root := &TreeNode{Val: vs[0]}
+	queue := []*TreeNode{root}
+	for i := 1; i < len(vs) && len(queue) > 0; i++ {
+		node := queue[0]
+		queue = queue[1:]
+
+		if i < len(vs) && vs[i] != -1 {
+			node.Left = &TreeNode{Val: vs[i]}
+			queue = append(queue, node.Left)
+		}
+
+		i += 1
+
+		if i < len(vs) && vs[i] != -1 {
+			node.Right = &TreeNode{Val: vs[i]}
+			queue = append(queue, node.Right)
+		}
+	}
+	return root
+}
+
 func max(a, b int) int {
 	if a > b {
 		return a
@@ -254,4 +292,38 @@ func (t *BinaryTree) findMin(node *TreeNode, v int, minVal *int) {
 	if v >= node.Val {
 		t.findMin(node.Right, v, minVal)
 	}
+}
+
+func tree2Map(node, parent *TreeNode, m map[*TreeNode]*TreeNode) {
+	if node == nil {
+		return
+	}
+	m[node] = parent
+	tree2Map(node.Left, node, m)
+	tree2Map(node.Right, node, m)
+}
+
+func findNodesForDistance(node *TreeNode, dist int,
+	m map[*TreeNode]*TreeNode,
+	seen map[*TreeNode]bool) []int {
+
+	if node == nil || seen[node] {
+		return []int{}
+	}
+	if dist == 0 {
+		return []int{node.Val}
+	}
+
+	seen[node] = true
+	p1 := findNodesForDistance(node.Left, dist-1, m, seen)
+	p2 := findNodesForDistance(node.Right, dist-1, m, seen)
+	p3 := findNodesForDistance(m[node], dist-1, m, seen)
+
+	return append(append(p1, p2...), p3...)
+}
+
+func distanceK(root *TreeNode, target *TreeNode, k int) []int {
+	m, seen := map[*TreeNode]*TreeNode{}, map[*TreeNode]bool{}
+	tree2Map(root, nil, m)
+	return findNodesForDistance(target, k, m, seen)
 }

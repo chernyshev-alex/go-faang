@@ -194,3 +194,27 @@ func Test_InOrderSuccessor(t *testing.T) {
 		})
 	}
 }
+
+// https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/description/
+func Test_DistanceK(t *testing.T) {
+	var ts = []struct {
+		input     []int
+		target, k int
+		expected  []int
+	}{{[]int{3, 5, 1, 6, 2, 0, 8, -1, -1, 7, 4}, 5, 2, []int{7, 4, 1}},
+		{[]int{1}, 1, 3, []int{}},
+	}
+	for i := range ts {
+		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
+			root := CreateTreeFromSlice(ts[i].input)
+			target := FindNodeInTree(root, ts[i].target)
+
+			result := distanceK(root, target, ts[i].k)
+			if !reflect.DeepEqual(result, ts[i].expected) {
+				t.Errorf("input %v, target %d, k %d, expected %v, got %v",
+					ts[i].input, ts[i].target, ts[i].k, ts[i].expected, result)
+			}
+		})
+	}
+
+}
