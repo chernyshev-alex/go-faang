@@ -20,9 +20,8 @@ func (t MTerminal) str() string {
 	}
 }
 
-func parseAndCompress(input string) string {
-	seqParser := SeqStringParser()
-	parser := ApplyParser(seqParser)
+func ParseAndCompress(input string) string {
+	parser := AppendParser(SeqCharsParser())
 	nodes, _ := parser(strings.NewReader(input))
 	s := ""
 	for _, t := range nodes.([]MTerminal) {
@@ -31,7 +30,7 @@ func parseAndCompress(input string) string {
 	return s
 }
 
-func SeqStringParser() MParser {
+func SeqCharsParser() MParser {
 	return func(s io.RuneScanner) (interface{}, io.RuneScanner) {
 		first, _, e := s.ReadRune()
 		cnt, next := 1, first
@@ -51,9 +50,10 @@ func SeqStringParser() MParser {
 	}
 }
 
-func ApplyParser(mp MParser) MParser {
+func AppendParser(mp MParser) MParser {
 	return func(s io.RuneScanner) (interface{}, io.RuneScanner) {
 		result := make([]MTerminal, 0)
+
 		var node interface{}
 		for scanner := s; scanner != nil; {
 			node, scanner = mp(scanner)

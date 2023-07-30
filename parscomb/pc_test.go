@@ -16,7 +16,7 @@ func Test_CompressStr(t *testing.T) {
 
 	for i := range ts {
 		t.Run(fmt.Sprintf("test %d", i), func(t *testing.T) {
-			result := parseAndCompress(ts[i].input)
+			result := ParseAndCompress(ts[i].input)
 			assert.Equal(t, ts[i].expected, result)
 		})
 	}
