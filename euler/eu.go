@@ -1,4 +1,4 @@
-package fp
+package euler
 
 import (
 	"math"
