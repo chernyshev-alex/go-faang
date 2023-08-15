@@ -3,6 +3,7 @@ package euler
 import (
 	"fmt"
 	"math"
+	"math/big"
 	"strconv"
 	"strings"
 	"testing"
@@ -176,4 +177,39 @@ func TestMaxPathSumOne(t *testing.T) {
 	}
 	result := lo.Max(triangle[len(triangle)-1])
 	assert.Equal(t, 1074, result)
+}
+
+// E19 How many Sundays fell on the first of the month during the twentieth century?
+func TestMaxSundays(t *testing.T) {
+	daysInMonth := func(y, m int) int {
+		data := []int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+		leap := y%4 == 0 && y%100 != 0 || y%400 == 0
+		if m == 1 && leap {
+			return 29
+		}
+		return data[m]
+	}
+
+	count, days := 0, 0
+	lo.ForEach(lo.RangeWithSteps(1901, 2000, 1), func(year int, yi int) {
+		lo.ForEach(lo.RangeWithSteps(0, 12, 1), func(month int, mi int) {
+			if days%7 == 6 {
+				count++
+			}
+			days += daysInMonth(year, month)
+		})
+	})
+	assert.Equal(t, 171, count)
+}
+
+// E20 Find the sum of digits in 100!
+func TestSumOfDigits100Factorial(t *testing.T) {
+	result := 0
+
+	sfn := fmt.Sprintf("%s", new(big.Int).MulRange(1, 100))
+	for _, c := range sfn {
+		nm, _ := strconv.Atoi(string(c))
+		result += nm
+	}
+	assert.Equal(t, 648, result)
 }
