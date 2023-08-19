@@ -213,3 +213,24 @@ func TestSumOfDigits100Factorial(t *testing.T) {
 	}
 	assert.Equal(t, 648, result)
 }
+
+// E21 Evaluate the sum of all amicable pairs under 10000
+func TestSumOfAmicablePairsV2(t *testing.T) {
+	ds := make([]int, 10000)
+	for n := 0; n < 10000; n++ {
+		sum := 0
+		for i := 1; i <= n/2; i++ {
+			if n%i == 0 {
+				sum += i
+			}
+		}
+		ds[n] = sum
+	}
+	result := 0
+	for i, n := range ds {
+		if n < 10000 && ds[n] != n && ds[n] == i {
+			result += i
+		}
+	}
+	assert.Equal(t, 31626, result)
+}
